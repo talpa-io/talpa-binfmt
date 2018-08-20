@@ -9,7 +9,7 @@
 namespace Talpa\BinFmt;
 
 
-class BinStream
+class BinStreamWriter
 {
 
     /**
@@ -31,7 +31,6 @@ class BinStream
     {
         $colId = $this->columnIndex->checkRow($colName, $ts, $measureUnit, $value);
         $this->data .= $this->dataFormat->pack($ts, $colId, $value) . "\n";
-
     }
 
 
