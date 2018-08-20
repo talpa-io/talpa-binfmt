@@ -10,6 +10,7 @@ namespace Talpa\BinFmt;
 
 
 use Phore\CloudStore\Driver\CloudStoreDriver;
+use Phore\CloudStore\Driver\GoogleCloudStoreDriver;
 use Phore\CloudStore\ObjectStore;
 
 class TalpaMaschineStore extends ObjectStore
@@ -22,9 +23,9 @@ class TalpaMaschineStore extends ObjectStore
     private $names;
 
 
-    public function __construct(CloudStoreDriver $cloudStoreDriver)
+    public function __construct(string $keyfile)
     {
-        parent::__construct($cloudStoreDriver);
+        parent::__construct(new GoogleCloudStoreDriver($keyfile, "talpa-maschine-data"));
         $this->names = new TalpaObjectName();
     }
 
