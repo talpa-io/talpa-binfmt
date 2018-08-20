@@ -33,6 +33,11 @@ class BinStreamWriter
         $this->data .= $this->dataFormat->pack($ts, $colId, $value) . "\n";
     }
 
+    public function getSize () : int
+    {
+        return strlen($this->data);
+    }
+
 
     public function getData () : string
     {
