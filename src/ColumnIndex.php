@@ -57,6 +57,20 @@ class ColumnIndex
         return $columnIndex[$colName]["id"];
     }
 
+    public function getColumnNameById (int $id) : string
+    {
+        if ( ! isset($this->colIdToNameIdx[$id]))
+            throw new \Exception("Invalid column id '$id'");
+        return $this->colIdToNameIdx[$id];
+    }
+
+    public function getColumnIdByName(string $colName) : int
+    {
+        if ( ! isset($this->columnIndex[$colName]))
+            throw new \Exception("Invalid column name '$colName'");
+        return $this->columnIndex[$colName]["id"];
+    }
+
     public function getColumnIndex() : array
     {
         return $this->columnIndex;
