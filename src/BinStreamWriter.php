@@ -19,7 +19,7 @@ class BinStreamWriter
 
     private $dataFormat;
 
-    private $data = "";
+    private $data = [];
 
     public function __construct(ColumnIndex $columnIndex)
     {
@@ -30,18 +30,19 @@ class BinStreamWriter
     public function write (float $ts, string $colName, string $measureUnit, $value)
     {
         $colId = $this->columnIndex->checkRow($colName, $ts, $measureUnit, $value);
-        $this->data .= $this->dataFormat->pack($ts, $colId, $value) . "\n";
+        $this->data[] = $this->dataFormat->pack($ts, $colId, $value);
+
     }
 
-    public function getSize () : int
+    public function getDataSetCount () : int
     {
-        return strlen($this->data);
+        return count($this->data);
     }
 
 
-    public function getData () : string
+    public function getData ()
     {
-        return $this->data;
+        return gzencode(serialize($this->data), 5);
     }
 
 }

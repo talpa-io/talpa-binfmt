@@ -15,7 +15,6 @@ $input = fopen($argv[1], "r");
 
 while( ! feof($input)) {
     $line = fgets($input);
-    $line = trim($line);
     print_r ($stream->unpack($line));
     echo "\n";
 }

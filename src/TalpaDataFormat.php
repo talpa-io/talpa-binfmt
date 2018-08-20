@@ -34,12 +34,12 @@ class TalpaDataFormat
             $valueType = self::TYPE_STRING;
             $strVal = $value;
         }
-        return pack("Pvcga*", $ts * 1000, $colId, $valueType, $floatVal, $strVal);
+        return pack("dvcda*", $ts * 100, $colId, $valueType, $floatVal, $strVal);
     }
 
     public function unpack (string $binary)
     {
-        $data = unpack("Pts/vcolId/ctype/gfloatVal/a*strVal", $binary);
+        $data = unpack("dts/vcolId/ctype/dfloatVal/a*strVal", $binary);
         if ( ! isset ($data["ts"]) || ! isset ($data["colId"]) || ! isset ($data["type"]))
             throw new \InvalidArgumentException("Cant decode binary message '$binary'");
 
@@ -59,7 +59,7 @@ class TalpaDataFormat
         }
 
         return [
-            "ts" => $data["ts"] / 1000,
+            "ts" => $data["ts"] / 100,
             "colId" =>$data["colId"],
             "val" => $value
         ];

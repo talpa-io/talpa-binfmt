@@ -12,4 +12,32 @@ namespace Talpa\BinFmt;
 class BinStreamReader
 {
 
+    private $data;
+
+    /**
+     * @var ColumnIndex
+     */
+    private $colIndex;
+
+    public function __construct(ColumnIndex $columnIndex)
+    {
+        $this->colIndex = $columnIndex;
+    }
+
+
+    public function setData( $data)
+    {
+        $this->data = unserialize(gzdecode($data));
+    }
+
+
+    public function each (callable $fn) {
+        $format = new TalpaDataFormat();
+        foreach ($this->data as $line) {
+            $line = $format->unpack($line);
+            $fn($line["ts"], $line["colId"], $line["val"]);
+        }
+    }
+
+
 }
