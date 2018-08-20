@@ -35,7 +35,7 @@ class BinStreamReader
         $format = new TalpaDataFormat();
         foreach ($this->data as $line) {
             $line = $format->unpack($line);
-            $fn($line["ts"], $line["colId"], $line["val"]);
+            $fn($line["ts"], $this->colIndex->getColumnNameById($line["colId"]), $line["val"], $this->colIndex);
         }
     }
 

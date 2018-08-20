@@ -17,6 +17,7 @@ class TalpaMaschineStore extends ObjectStore
 {
 
     private $maschineId = null;
+
     /**
      * @var TalpaObjectName
      */
