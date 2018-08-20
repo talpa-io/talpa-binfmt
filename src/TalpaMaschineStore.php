@@ -64,5 +64,14 @@ class TalpaMaschineStore extends ObjectStore
         $this->put($oid, $binData->getData());
     }
 
+    public function getBinMaschineReader (float $timestamp) : BinStreamReader
+    {
+        $slotIntervalTs = (new SlotInterval())->getRawDataSlotId($timestamp);
+        $oid = $this->names->RawStoreBin($this->maschineId, $slotIntervalTs);
+        $reader = new BinStreamReader($this->getColumnIndex());
+        $reader->setData($this->get($oid));
+        return $reader;
+    }
+
 
 }
