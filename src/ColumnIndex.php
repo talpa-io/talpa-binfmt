@@ -71,7 +71,7 @@ class ColumnIndex
         return $this->columnIndex[$colName]["id"];
     }
 
-    public function getColumnIndex() : array
+    public function getArray() : array
     {
         return $this->columnIndex;
     }
