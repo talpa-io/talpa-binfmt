@@ -1,3 +1,4 @@
+#!/bin/bash
 <?php
 /**
  * Created by PhpStorm.
@@ -5,3 +6,16 @@
  * Date: 20.08.18
  * Time: 14:34
  */
+
+require __DIR__ . "/../vendor/autoload.php";
+
+$stream = new \Talpa\BinFmt\TalpaDataFormat();
+
+$input = fopen($argv[1], "r");
+
+while( ! feof($input)) {
+    $line = fgets($input);
+    $line = trim($line);
+    print_r ($stream->unpack($line));
+    echo "\n";
+}

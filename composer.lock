@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-cloudstore.git",
-                "reference": "042a391d8a2d69925cbd7875764fc595f298f054"
+                "reference": "7b52a97fb07f950df879fa704ca6a2e1fcec7e92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-cloudstore/zipball/042a391d8a2d69925cbd7875764fc595f298f054",
-                "reference": "042a391d8a2d69925cbd7875764fc595f298f054",
+                "url": "https://api.github.com/repos/phore/phore-cloudstore/zipball/7b52a97fb07f950df879fa704ca6a2e1fcec7e92",
+                "reference": "7b52a97fb07f950df879fa704ca6a2e1fcec7e92",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 }
             ],
             "description": "Data analyzing framework",
-            "time": "2018-08-20T11:34:11+00:00"
+            "time": "2018-08-20T12:14:31+00:00"
         }
     ],
     "packages-dev": [
