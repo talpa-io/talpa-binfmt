@@ -1,0 +1,26 @@
+{
+  "name": "talpa/binfmt",
+  "description": "Binary format for storing / streaming timeseries data",
+  "keywords": ["Keyword1", "Keyword2"],
+  "license": "MIT",
+  "authors": [
+    { "name": "Matthias Leuffen", "email": "m@tth.es" }
+  ],
+  "repositories": [
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Talpa\\BinFmt\\": "src/"
+    },
+    "files": [
+
+    ]
+  },
+  "minimum-stability": "dev",
+  "require-dev": {
+    "nette/tester": "^2.1@dev"
+  }
+}
