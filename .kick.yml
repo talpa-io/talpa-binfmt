@@ -9,3 +9,6 @@ command:
 
   test:
     - "vendor/bin/tester -C tests/"
+
+  bench:
+    - "php -f test/benchmark/file-reader-buffered.php"

@@ -12,6 +12,11 @@ namespace Talpa\BinFmt;
 class TalpaObjectName
 {
 
+    private function getIndex($ts)
+    {
+        return substr(md5($ts), 0, 6);
+    }
+
     public function RawStoreCsv(string $maschineId, int $ts)
     {
         return "$maschineId/$ts";
@@ -19,17 +24,22 @@ class TalpaObjectName
 
     public function RawStoreBin(string $maschineId, int $ts)
     {
-        return "$maschineId/$ts.bin";
+        return "{$this->getIndex($maschineId)}-$maschineId/{$this->getIndex($ts)}-$ts.all.bin";
+    }
+
+    public function RawStoreBinMin(string $maschineId, int $ts)
+    {
+        return "{$this->getIndex($maschineId)}-$maschineId/{$this->getIndex($ts)}-$ts.sec.bin";
     }
 
     public function ColumnIndex (string $maschineId)
     {
-        return "$maschineId/column.index.json";
+        return "{$this->getIndex($maschineId)}-$maschineId/column.index.json";
     }
 
     public function ShiftIndex (string $maschineId, int $shiftTs)
     {
-        return "$maschineId/shift.$shiftTs.json";
+        return "{$this->getIndex($maschineId)}-$maschineId/shift.$shiftTs.json";
     }
 
 }

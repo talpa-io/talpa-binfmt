@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5473cd4113eb6b1a36f4eefc14c1887a",
+    "content-hash": "48e72d9e79e6d3e25737ac34f332a909",
     "packages": [
         {
             "name": "phore/cloudstore",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-cloudstore.git",
-                "reference": "7b52a97fb07f950df879fa704ca6a2e1fcec7e92"
+                "reference": "8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-cloudstore/zipball/7b52a97fb07f950df879fa704ca6a2e1fcec7e92",
-                "reference": "7b52a97fb07f950df879fa704ca6a2e1fcec7e92",
+                "url": "https://api.github.com/repos/phore/phore-cloudstore/zipball/8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585",
+                "reference": "8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,99 @@
                 }
             ],
             "description": "Data analyzing framework",
-            "time": "2018-08-20T12:14:31+00:00"
+            "time": "2018-08-29T11:45:50+00:00"
+        },
+        {
+            "name": "phore/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-log.git",
+                "reference": "558c4f933d2bd7088dc88c0a9e411552a6479db8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-log/zipball/558c4f933d2bd7088dc88c0a9e411552a6479db8",
+                "reference": "558c4f933d2bd7088dc88c0a9e411552a6479db8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "nette/tester": "^2.1@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\Log\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "m@tth.es"
+                }
+            ],
+            "description": "Logging class",
+            "keywords": [
+                "Keyword1",
+                "Keyword2"
+            ],
+            "time": "2018-08-29T11:02:39+00:00"
+        },
+        {
+            "name": "rybakit/msgpack",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rybakit/msgpack.php.git",
+                "reference": "e0e81a251fce076cd1719fab99f70a60d5ebbae2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/e0e81a251fce076cd1719fab99f70a60d5ebbae2",
+                "reference": "e0e81a251fce076cd1719fab99f70a60d5ebbae2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "phpunit/phpunit": "^7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MessagePack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugene Leonovich",
+                    "email": "gen.work@gmail.com"
+                }
+            ],
+            "description": "A pure PHP implementation of the MessagePack serialization format.",
+            "keywords": [
+                "messagepack",
+                "msgpack",
+                "pure",
+                "streaming"
+            ],
+            "time": "2018-08-10T07:17:09+00:00"
         }
     ],
     "packages-dev": [
@@ -60,12 +152,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "a06179f1ac5c92249c16a770bec21d6fb49b6071"
+                "reference": "ca80e7bb1210c5e2141925b8f74ba7cf43500843"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/a06179f1ac5c92249c16a770bec21d6fb49b6071",
-                "reference": "a06179f1ac5c92249c16a770bec21d6fb49b6071",
+                "url": "https://api.github.com/repos/nette/tester/zipball/ca80e7bb1210c5e2141925b8f74ba7cf43500843",
+                "reference": "ca80e7bb1210c5e2141925b8f74ba7cf43500843",
                 "shasum": ""
             },
             "require": {
@@ -114,13 +206,15 @@
                 "testing",
                 "unit"
             ],
-            "time": "2018-08-13T14:05:02+00:00"
+            "time": "2018-08-27T18:21:48+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "phore/cloudstore": 20,
+        "rybakit/msgpack": 20,
+        "phore/log": 20,
         "nette/tester": 20
     },
     "prefer-stable": false,

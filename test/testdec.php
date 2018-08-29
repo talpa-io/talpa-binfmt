@@ -8,9 +8,31 @@
 
 namespace Talpa;
 
+use MessagePack\BufferUnpacker;
+use MessagePack\MessagePack;
+use MessagePack\Packer;
+use MessagePack\Type\Map;
 use Talpa\BinFmt\TalpaDataFormat;
 
 require __DIR__ . "/../vendor/autoload.php";
+
+$wurst = [];
+$packer = new Packer();
+for ($i=0; $i<1000000; $i++) {
+    $wurst[] = [
+        55.2849,//microtime(true),
+        4,
+        false
+    ];
+
+}
+
+
+
+echo "seeding,";
+$data = gzencode(MessagePack::pack($wurst), 5);
+echo strlen($data);
+/*
 
 $fmt = new TalpaDataFormat();
 
@@ -27,3 +49,4 @@ foreach (explode("\n", $data) as $cur)
     print_r ($fmt->unpack($cur));
 
 
+*/

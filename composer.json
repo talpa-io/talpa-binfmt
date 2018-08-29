@@ -10,7 +10,10 @@
   ],
   "require": {
     "php": ">=7.1",
-    "phore/cloudstore": "dev-master"
+    "ext-json": "*",
+    "phore/cloudstore": "dev-master",
+    "rybakit/msgpack": "dev-master",
+    "phore/log": "dev-master"
   },
   "autoload": {
     "psr-4": {
