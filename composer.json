@@ -13,7 +13,8 @@
     "ext-json": "*",
     "phore/cloudstore": "dev-master",
     "rybakit/msgpack": "dev-master",
-    "phore/log": "dev-master"
+    "phore/log": "dev-master",
+    "google/cloud-storage": "dev-master"
   },
   "autoload": {
     "psr-4": {
