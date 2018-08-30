@@ -7,13 +7,14 @@
  */
 namespace Test;
 
+use Phore\FileSystem\GzFileStream;
 use Phore\Log\PhoreStopWatch;
 use Talpa\BinFmt\V1\TDataWriter;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
 
-$outFp = fopen("demo.min.bin", "w+");
+$outFp = new GzFileStream("demo.3.bin", "w");
 $writer = new TDataWriter($outFp, ["some"=>"metadata"]);
 
 
@@ -35,7 +36,7 @@ while ( ! feof($fp)) {
     }
 
 
-    $timestamp = ((int)($data[0] / 60)) * 60;
+    $timestamp = ((int)($data[0] / 3)) * 3;
     $colName = $data[1];
     $mu = $data[2];
     $value = $data[3];
@@ -65,4 +66,4 @@ while ( ! feof($fp)) {
 
 $writer->close();
 print_r ($writer->getStats());
-fclose($outFp);
+

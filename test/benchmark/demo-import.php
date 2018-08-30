@@ -7,13 +7,14 @@
  */
 namespace Test;
 
+use Phore\FileSystem\GzFileStream;
 use Phore\Log\PhoreStopWatch;
 use Talpa\BinFmt\V1\TDataWriter;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
 
-$outFp = fopen("demo.bin", "w+");
+$outFp = new GzFileStream("demo.bin", "w");
 $writer = new TDataWriter($outFp, ["some"=>"metadata"]);
 
 
@@ -50,4 +51,3 @@ while ( ! feof($fp)) {
 
 $writer->close();
 print_r ($writer->getStats());
-fclose($outFp);

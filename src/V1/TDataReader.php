@@ -9,29 +9,30 @@
 namespace Talpa\BinFmt\V1;
 
 
+use Phore\FileSystem\FileStream;
+
 class TDataReader extends TBinFmt
 {
 
-    private $ressource;
+    private $fileStream;
     private $curTs = null;
 
     private $lastColData = null;
 
     private $rowCount = 0;
 
-    private $dataCb;
-
-
     private $buffer = "";
     private $bIndex = 0;
     private $pullMore;
 
 
-    public function __construct($ressource)
+    public function __construct(FileStream $fileStream)
     {
-        $this->ressource = $ressource;
+        $this->fileStream = $fileStream;
         $this->pullMore = function() {
-            $this->buffer .= fread($this->ressource, 120000);
+            if ($this->fileStream->feof())
+                throw new \InvalidArgumentException("End of input stream before eof data frame packet recieved. File corruption.");
+            $this->buffer .= $this->fileStream->fread(8000);
         };
     }
 
@@ -95,8 +96,9 @@ class TDataReader extends TBinFmt
         $this->metadata = json_decode($this->readPayload(self::TYPE_STRING));
         //echo "\nMetadtat";
 
-        while ( ! feof($this->ressource)) {
+        while (true) {
             //sleep (1);
+
             $this->readDataFrame($type, $colId);
             //$frame = $this->readDataFrame();
             //$type = $frame["type"];
@@ -143,6 +145,7 @@ class TDataReader extends TBinFmt
                     throw new \InvalidArgumentException("Row count mismatch: Should be '$rowCount' but actual '{$this->rowCount}'");
                 break;
             }
+
             $value = $this->readPayload($type);
             $this->lastColData[$colId] = $value;
             ($this->onDataCb)($this->curTs, $colId, $value);

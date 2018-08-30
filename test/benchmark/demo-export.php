@@ -7,6 +7,7 @@
  */
 namespace Test;
 
+use Phore\FileSystem\GzFileStream;
 use Phore\Log\PhoreStopWatch;
 use Talpa\BinFmt\V1\TDataReader;
 use Talpa\BinFmt\V1\TDataWriter;
@@ -14,10 +15,10 @@ use Talpa\BinFmt\V1\TDataWriter;
 require __DIR__ . "/../../vendor/autoload.php";
 
 $sw = new PhoreStopWatch();
-$fp = fopen("demo.sec.bin", "r");
+$inStream = new GzFileStream("demo.1.bin", "r");
 
 $index = 0;
-$wrapper = new TDataReader($fp);
+$wrapper = new TDataReader($inStream);
 $wrapper->setOnDataCb(function($ts, $colId, $data) use(&$index) {
     $index++;
     //echo "\n$ts: $colId - $data";

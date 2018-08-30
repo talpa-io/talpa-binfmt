@@ -36,15 +36,15 @@ class TalpaMaschineStore extends ObjectStore
     }
 
 
-    public function getColumnIndex() : ColumnIndex
+    public function getColumnIndex() : TColumnIndex
     {
         $oid = $this->names->ColumnIndex($this->maschineId);
         if ( ! $this->has($oid))
-            return new ColumnIndex([]);
-        return new ColumnIndex($this->getJson($oid));
+            return new TColumnIndex([]);
+        return new TColumnIndex($this->getJson($oid));
     }
 
-    public function putColumnIndex(ColumnIndex $columnIndex)
+    public function putColumnIndex(TColumnIndex $columnIndex)
     {
         $oid = $this->names->ColumnIndex($this->maschineId);
         $this->putJson($oid, $columnIndex->getArray());

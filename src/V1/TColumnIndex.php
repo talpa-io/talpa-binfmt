@@ -6,17 +6,20 @@
  * Time: 10:34
  */
 
-namespace Talpa\BinFmt;
+namespace Talpa\BinFmt\V1;
 
 
-class ColumnIndex
+class TColumnIndex
 {
 
     private $columnIndex = [];
     private $colIdToNameIdx = [];
+    private $isModified = false;
 
-    public function __construct(array $columnIndex)
+    public function __construct(array $columnIndex = null)
     {
+        if ($columnIndex === null)
+            $columnIndex = [];
         $this->columnIndex = $columnIndex;
         foreach ($this->columnIndex as $colName => $columnIndex) {
             $this->colIdToNameIdx[$columnIndex["id"]] = $colName;
@@ -24,7 +27,7 @@ class ColumnIndex
     }
 
 
-    public function checkRow (string $colName, float $ts, string $measureUnit, $value) : int
+    public function checkRow (float $ts, string $colName, string $measureUnit, $value) : int
     {
         $columnIndex =& $this->columnIndex;
 
@@ -39,20 +42,29 @@ class ColumnIndex
                 "max" => null
             ];
             $this->colIdToNameIdx[$columnIndex[$colName]["id"]] = $colName;
+            $this->isModified = true;
         }
-        if ($ts > $columnIndex[$colName]["last_seen_ts"])
+        if ($ts > $columnIndex[$colName]["last_seen_ts"]) {
             $columnIndex[$colName]["last_seen_ts"] = $ts;
+            $this->isModified = true;
+        }
 
         if ($columnIndex[$colName]["measure_unit_cur"] !== $ts) {
-            $columnIndex[$colName]["measure_unit_all"][$measureUnit] = time();
+            $columnIndex[$colName]["measure_unit_all"][$measureUnit] = $ts;
+            $this->isModified = true;
         }
-        $columnIndex[$colName]["measure_unit_cur"] = $measureUnit;
+        if ($columnIndex[$colName]["measure_unit_cur"] !== $measureUnit) {
+            $columnIndex[$colName]["measure_unit_cur"] = $measureUnit;
+            $this->isModified = true;
+        }
 
         if ($value < $columnIndex[$colName]["min"] || $columnIndex[$colName]["min"] === null) {
             $columnIndex[$colName]["min"] = $value;
+            $this->isModified = true;
         }
         if ($value > $columnIndex[$colName]["max"] || $columnIndex[$colName]["max"] === null) {
             $columnIndex[$colName]["max"] = $value;
+            $this->isModified = true;
         }
         return $columnIndex[$colName]["id"];
     }
@@ -69,6 +81,11 @@ class ColumnIndex
         if ( ! isset($this->columnIndex[$colName]))
             throw new \Exception("Invalid column name '$colName'");
         return $this->columnIndex[$colName]["id"];
+    }
+
+    public function isModified() : bool
+    {
+        return $this->isModified;
     }
 
     public function getArray() : array

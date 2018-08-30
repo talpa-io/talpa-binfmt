@@ -9,10 +9,16 @@
 namespace Talpa\BinFmt\V1;
 
 
+use Phore\FileSystem\FileStream;
+use Phore\FileSystem\PhoreFile;
+
 class TDataWriter extends TBinFmt
 {
 
-    private $resource;
+    /**
+     * @var FileStream
+     */
+    private $fileStream;
 
     private $timestamp = null;
 
@@ -30,9 +36,9 @@ class TDataWriter extends TBinFmt
     private $numRows = 0;
 
 
-    public function __construct($resource, array $metadata=[])
+    public function __construct(FileStream $fileStream, array $metadata=[])
     {
-        $this->resource = $resource;
+        $this->fileStream = $fileStream;
         $this->writeFrame(self::TYPE_FILE_VERSION, 1);
         $serialized = json_encode($metadata);
         $this->writeVarCharFrame($serialized);
@@ -41,7 +47,7 @@ class TDataWriter extends TBinFmt
 
     private function write($data)
     {
-        fwrite($this->resource, $data);
+        $this->fileStream->fwrite($data);
     }
 
     private function writeFrame(int $frameType, int $colId)
@@ -192,10 +198,11 @@ class TDataWriter extends TBinFmt
         return $this->stats;
     }
 
-    public function close()
+    public function close() : PhoreFile
     {
         $this->writeFrame(self::TYPE_EOF, 0);
         $this->writePayload(self::TYPE_INT64, $this->numRows);
+        return $this->fileStream->fclose();
     }
 
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "26fc20ec8930595a3b77a7cc6ee36ec2",
+    "content-hash": "071b0b85059ece8b13eb757f70f8f076",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -515,6 +515,49 @@
             "time": "2018-08-29T11:45:50+00:00"
         },
         {
+            "name": "phore/filesystem",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-filesystem.git",
+                "reference": "f0f419b25872a815cf09112e87cefd05955b9a08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/f0f419b25872a815cf09112e87cefd05955b9a08",
+                "reference": "f0f419b25872a815cf09112e87cefd05955b9a08",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-yaml": "*",
+                "php": ">7.1"
+            },
+            "require-dev": {
+                "nette/tester": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\FileSystem\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "leuffen@continue.de"
+                }
+            ],
+            "time": "2018-08-07T07:51:56+00:00"
+        },
+        {
             "name": "phore/log",
             "version": "dev-master",
             "source": {
@@ -905,6 +948,7 @@
         "rybakit/msgpack": 20,
         "phore/log": 20,
         "google/cloud-storage": 20,
+        "phore/filesystem": 20,
         "nette/tester": 20
     },
     "prefer-stable": false,

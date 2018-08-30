@@ -1,5 +1,5 @@
 /.idea
 /vendor
-/etc
+/etc/*
 *.bin
 *.tsv

@@ -14,7 +14,8 @@
     "phore/cloudstore": "dev-master",
     "rybakit/msgpack": "dev-master",
     "phore/log": "dev-master",
-    "google/cloud-storage": "dev-master"
+    "google/cloud-storage": "dev-master",
+    "phore/filesystem": "dev-master"
   },
   "autoload": {
     "psr-4": {

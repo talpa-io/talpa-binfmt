@@ -13,7 +13,7 @@ class BinStreamWriter
 {
 
     /**
-     * @var ColumnIndex
+     * @var TColumnIndex
      */
     private $columnIndex;
 
@@ -21,7 +21,7 @@ class BinStreamWriter
 
     private $data = [];
 
-    public function __construct(ColumnIndex $columnIndex)
+    public function __construct(TColumnIndex $columnIndex)
     {
         $this->columnIndex = $columnIndex;
         $this->dataFormat = new TalpaDataFormat();

@@ -15,11 +15,11 @@ class BinStreamReader
     private $data;
 
     /**
-     * @var ColumnIndex
+     * @var TColumnIndex
      */
     private $colIndex;
 
-    public function __construct(ColumnIndex $columnIndex)
+    public function __construct(TColumnIndex $columnIndex)
     {
         $this->colIndex = $columnIndex;
     }
