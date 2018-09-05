@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "071b0b85059ece8b13eb757f70f8f076",
+    "content-hash": "5959d448d2391d15726a976326eec05e",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -101,16 +101,16 @@
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.23.1",
+            "version": "v1.23.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GoogleCloudPlatform/google-cloud-php-core.git",
-                "reference": "44b3bb512a7a445bd4ecafbdc86ed7c142e58f9f"
+                "reference": "d1b5f59b78c696484c3005d632b64308cbb6f6d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GoogleCloudPlatform/google-cloud-php-core/zipball/44b3bb512a7a445bd4ecafbdc86ed7c142e58f9f",
-                "reference": "44b3bb512a7a445bd4ecafbdc86ed7c142e58f9f",
+                "url": "https://api.github.com/repos/GoogleCloudPlatform/google-cloud-php-core/zipball/d1b5f59b78c696484c3005d632b64308cbb6f6d2",
+                "reference": "d1b5f59b78c696484c3005d632b64308cbb6f6d2",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             },
             "require-dev": {
                 "erusev/parsedown": "^1.6",
-                "google/gax": "^0.36",
+                "google/gax": "^0.37",
                 "opis/closure": "^3",
                 "phpdocumentor/reflection": "^3.0",
                 "phpunit/phpunit": "^4.8|^5.0",
@@ -156,7 +156,7 @@
                 "Apache-2.0"
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
-            "time": "2018-08-22T17:55:03+00:00"
+            "time": "2018-08-30T15:45:55+00:00"
         },
         {
             "name": "google/cloud-storage",
@@ -469,37 +469,33 @@
             "time": "2018-06-19T07:22:34+00:00"
         },
         {
-            "name": "phore/cloudstore",
+            "name": "phore/core",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phore/phore-cloudstore.git",
-                "reference": "8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585"
+                "url": "https://github.com/phore/phore-core.git",
+                "reference": "9846619acf4a3d8e2f2003402cf31b250c9345e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-cloudstore/zipball/8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585",
-                "reference": "8b05fba60a19a3d2f37c49b1fdd0ae4264cdb585",
+                "url": "https://api.github.com/repos/phore/phore-core/zipball/9846619acf4a3d8e2f2003402cf31b250c9345e0",
+                "reference": "9846619acf4a3d8e2f2003402cf31b250c9345e0",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "ext-yaml": "*",
                 "php": ">=7.1"
             },
             "require-dev": {
-                "google/cloud-storage": "dev-master",
                 "nette/tester": "^2.1@dev"
-            },
-            "suggest": {
-                "google/cloud-storage": "If using Google Cloud services"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Phore\\CloudStore\\": "src/"
+                    "Phore\\Core\\": "src/"
                 },
-                "files": []
+                "files": [
+                    "src/functions.inc.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -511,8 +507,8 @@
                     "email": "m@tth.es"
                 }
             ],
-            "description": "Data analyzing framework",
-            "time": "2018-08-29T11:45:50+00:00"
+            "description": "Phore core library",
+            "time": "2018-09-05T10:12:37+00:00"
         },
         {
             "name": "phore/filesystem",
@@ -520,12 +516,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-filesystem.git",
-                "reference": "f0f419b25872a815cf09112e87cefd05955b9a08"
+                "reference": "a81a36fce663f75b8efa5ca8984b5cd63ef5650c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/f0f419b25872a815cf09112e87cefd05955b9a08",
-                "reference": "f0f419b25872a815cf09112e87cefd05955b9a08",
+                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/a81a36fce663f75b8efa5ca8984b5cd63ef5650c",
+                "reference": "a81a36fce663f75b8efa5ca8984b5cd63ef5650c",
                 "shasum": ""
             },
             "require": {
@@ -555,7 +551,7 @@
                     "email": "leuffen@continue.de"
                 }
             ],
-            "time": "2018-08-07T07:51:56+00:00"
+            "time": "2018-09-04T12:29:39+00:00"
         },
         {
             "name": "phore/log",
@@ -602,6 +598,54 @@
                 "Keyword2"
             ],
             "time": "2018-08-29T11:02:39+00:00"
+        },
+        {
+            "name": "phore/objectstore",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-objectstore.git",
+                "reference": "3fd1acd071dd4c4b95e97a6acb9e1951654cedbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-objectstore/zipball/3fd1acd071dd4c4b95e97a6acb9e1951654cedbb",
+                "reference": "3fd1acd071dd4c4b95e97a6acb9e1951654cedbb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-yaml": "*",
+                "phore/core": "dev-master",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "google/cloud-storage": "dev-master",
+                "nette/tester": "^2.1@dev"
+            },
+            "suggest": {
+                "google/cloud-storage": "If using Google Cloud services",
+                "phore/filesystem": "If using filesystem driver"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\ObjectStore\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "m@tth.es"
+                }
+            ],
+            "description": "Object store for local files, google, aws",
+            "time": "2018-09-05T10:56:17+00:00"
         },
         {
             "name": "psr/cache",
@@ -836,12 +880,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rybakit/msgpack.php.git",
-                "reference": "abbb3d759d40187a27db5dcf0a3b5343309c9a52"
+                "reference": "99c0bb40acd5aeeea885731e9622464e87165213"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/abbb3d759d40187a27db5dcf0a3b5343309c9a52",
-                "reference": "abbb3d759d40187a27db5dcf0a3b5343309c9a52",
+                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/99c0bb40acd5aeeea885731e9622464e87165213",
+                "reference": "99c0bb40acd5aeeea885731e9622464e87165213",
                 "shasum": ""
             },
             "require": {
@@ -874,7 +918,7 @@
                 "pure",
                 "streaming"
             ],
-            "time": "2018-08-29T21:12:54+00:00"
+            "time": "2018-09-02T22:34:32+00:00"
         }
     ],
     "packages-dev": [
@@ -944,11 +988,11 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "phore/cloudstore": 20,
         "rybakit/msgpack": 20,
         "phore/log": 20,
-        "google/cloud-storage": 20,
+        "phore/objectstore": 20,
         "phore/filesystem": 20,
+        "google/cloud-storage": 20,
         "nette/tester": 20
     },
     "prefer-stable": false,

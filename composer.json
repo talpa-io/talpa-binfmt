@@ -11,11 +11,11 @@
   "require": {
     "php": ">=7.1",
     "ext-json": "*",
-    "phore/cloudstore": "dev-master",
     "rybakit/msgpack": "dev-master",
     "phore/log": "dev-master",
-    "google/cloud-storage": "dev-master",
-    "phore/filesystem": "dev-master"
+    "phore/objectstore": "dev-master",
+    "phore/filesystem": "dev-master",
+    "google/cloud-storage": "dev-master"
   },
   "autoload": {
     "psr-4": {

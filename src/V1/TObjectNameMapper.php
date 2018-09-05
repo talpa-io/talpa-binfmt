@@ -31,12 +31,12 @@ class TObjectNameMapper
 
     public function RawStoreBin(int $ts)
     {
-        return "{$this->getMachinePath()}/{$this->getIndex($ts)}-$ts.full.bin";
+        return "{$this->getMachinePath()}/full/{$this->getIndex($ts)}-$ts.full.bin";
     }
 
     public function RawStoreBinSampled(int $ts, int $interval)
     {
-        return "{$this->getMachinePath()}/{$this->getIndex($ts)}-$ts.$interval.bin";
+        return "{$this->getMachinePath()}/aggregate/{$this->getIndex($ts)}-$ts.$interval.bin";
     }
 
     public function ColumnIndex ()
@@ -44,9 +44,10 @@ class TObjectNameMapper
         return "{$this->getMachinePath()}/column.index.json";
     }
 
-    public function ShiftIndex (int $shiftTs)
+    public function DataIndex (int $timestamp)
     {
-        return "{$this->getMachinePath()}/shift.$shiftTs.json";
+
+        return "{$this->getMachinePath()}/di/$timestamp.json";
     }
 
 }

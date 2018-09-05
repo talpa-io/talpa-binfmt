@@ -7,13 +7,13 @@
  */
 namespace Test;
 
-use Phore\CloudStore\Driver\GoogleCloudStoreDriver;
-use Phore\CloudStore\ObjectStore;
 use Phore\FileSystem\FileStream;
 use Phore\FileSystem\GzFileStream;
 use Phore\Log\Logger\PhoreEchoLogger;
 use Phore\Log\PhoreLog;
 use Phore\Log\PhoreStopWatch;
+use Phore\ObjectStore\Driver\GoogleObjectStoreDriver;
+use Phore\ObjectStore\ObjectStore;
 use Talpa\BinFmt\V1\TDataWriter;
 use Talpa\BinFmt\V1\TMachineWriter;
 
@@ -23,8 +23,8 @@ PhoreLog::Init(new PhoreEchoLogger());
 PhoreLog::GetInstance()->setVerbosity(9);
 
 
-$mw = new TMachineWriter("TST_TEST_001", new ObjectStore(new GoogleCloudStoreDriver(__DIR__ . "/../../etc/talpa-backend-a938dc597171.json", TMachineWriter::BUCKET)));
-$mux = $mw->openInterval(134);
+$mw = new TMachineWriter("TST_TEST_001", new ObjectStore(new GoogleObjectStoreDriver(__DIR__ . "/../../etc/talpa-backend-a938dc597171.json", TMachineWriter::BUCKET)));
+$mux = $mw->openInterval((int)(1535449257 / 3600) * 3600);
 
 $fp = new FileStream("/opt/mock/pescher.tsv", "r");
 
