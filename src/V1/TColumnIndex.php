@@ -16,6 +16,8 @@ class TColumnIndex
     private $colIdToNameIdx = [];
     private $isModified = false;
 
+
+
     public function __construct(array $columnIndex = null)
     {
         if ($columnIndex === null)
@@ -25,7 +27,6 @@ class TColumnIndex
             $this->colIdToNameIdx[$columnIndex["id"]] = $colName;
         }
     }
-
 
     public function checkRow (float $ts, string $colName, string $measureUnit, $value) : int
     {

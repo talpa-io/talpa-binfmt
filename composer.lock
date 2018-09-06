@@ -605,12 +605,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-objectstore.git",
-                "reference": "3fd1acd071dd4c4b95e97a6acb9e1951654cedbb"
+                "reference": "1d949cf80132e2bb1a425ddfb61a1b5588110016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-objectstore/zipball/3fd1acd071dd4c4b95e97a6acb9e1951654cedbb",
-                "reference": "3fd1acd071dd4c4b95e97a6acb9e1951654cedbb",
+                "url": "https://api.github.com/repos/phore/phore-objectstore/zipball/1d949cf80132e2bb1a425ddfb61a1b5588110016",
+                "reference": "1d949cf80132e2bb1a425ddfb61a1b5588110016",
                 "shasum": ""
             },
             "require": {
@@ -645,7 +645,7 @@
                 }
             ],
             "description": "Object store for local files, google, aws",
-            "time": "2018-09-05T10:56:17+00:00"
+            "time": "2018-09-05T12:45:05+00:00"
         },
         {
             "name": "psr/cache",

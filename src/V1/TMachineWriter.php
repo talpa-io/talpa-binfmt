@@ -29,7 +29,7 @@ class TMachineWriter
     private $objectStore;
 
     const SAMPLE_WRITERS = [
-        1, 2, 3, 4, 5, 8, 10, 15, 30, 60, 320
+        1, 2, 4, 8, 16, 32, 64, 300
     ];
 
     public function __construct(string $machineId, ObjectStore $objectStore)
