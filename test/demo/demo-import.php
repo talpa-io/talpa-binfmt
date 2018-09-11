@@ -14,7 +14,7 @@ use Phore\Log\PhoreLog;
 use Phore\Log\PhoreStopWatch;
 use Phore\ObjectStore\Driver\GoogleObjectStoreDriver;
 use Phore\ObjectStore\ObjectStore;
-use Talpa\BinFmt\V1\TDataWriter;
+use Talpa\BinFmt\V1\TCLDataWriter;
 use Talpa\BinFmt\V1\TMachineWriter;
 
 require __DIR__ . "/../../vendor/autoload.php";

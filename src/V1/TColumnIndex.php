@@ -15,23 +15,22 @@ class TColumnIndex
     private $columnIndex = [];
     private $colIdToNameIdx = [];
     private $isModified = false;
+    private $startTs;
 
 
-
-    public function __construct(array $columnIndex = null)
+    public function __construct(array $columnIndex, int $startTs)
     {
-        if ($columnIndex === null)
-            $columnIndex = [];
+        $this->startTs = ((int)($startTs / 3600)) * 3600; // Only track changes once per hour
         $this->columnIndex = $columnIndex;
         foreach ($this->columnIndex as $colName => $columnIndex) {
             $this->colIdToNameIdx[$columnIndex["id"]] = $colName;
         }
     }
 
-    public function checkRow (float $ts, string $colName, string $measureUnit, $value) : int
+    public function trackRow (string $colName, string $measureUnit, $value)
     {
         $columnIndex =& $this->columnIndex;
-
+        $ts = $this->startTs;
         if ( ! isset ($columnIndex[$colName])) {
             $columnIndex[$colName] = [
                 "id" => count(array_keys($columnIndex))+1,
@@ -70,19 +69,6 @@ class TColumnIndex
         return $columnIndex[$colName]["id"];
     }
 
-    public function getColumnNameById (int $id) : string
-    {
-        if ( ! isset($this->colIdToNameIdx[$id]))
-            throw new \Exception("Invalid column id '$id'");
-        return $this->colIdToNameIdx[$id];
-    }
-
-    public function getColumnIdByName(string $colName) : int
-    {
-        if ( ! isset($this->columnIndex[$colName]))
-            throw new \Exception("Invalid column name '$colName'");
-        return $this->columnIndex[$colName]["id"];
-    }
 
     public function isModified() : bool
     {

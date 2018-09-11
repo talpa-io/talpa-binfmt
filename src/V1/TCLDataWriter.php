@@ -12,7 +12,7 @@ namespace Talpa\BinFmt\V1;
 use Phore\FileSystem\FileStream;
 use Phore\FileSystem\PhoreFile;
 
-class TDataWriter extends TBinFmt
+class TCLDataWriter extends TBinFmt
 {
 
     /**
@@ -37,6 +37,11 @@ class TDataWriter extends TBinFmt
 
     private $numRows = 0;
 
+    const OUTPUT_BUFFER_LENGTH = 32000;
+    const GZ_COMPRESSION_LEVEL = 7;
+
+    private $outputBuffer = "";
+
 
     public function __construct(FileStream $fileStream, array $metadata=[])
     {
@@ -47,9 +52,19 @@ class TDataWriter extends TBinFmt
     }
 
 
+    private function flushOutputBuffer()
+    {
+        $compressed = gzencode($this->outputBuffer, self::GZ_COMPRESSION_LEVEL);
+        $this->fileStream->fwrite(pack("S", strlen($compressed)) . $compressed);
+        $this->outputBuffer = "";
+    }
+
     private function write($data)
     {
-        $this->fileStream->fwrite($data);
+        $this->outputBuffer .= $data;
+        if (strlen($this->outputBuffer) > self::OUTPUT_BUFFER_LENGTH) {
+            $this->flushOutputBuffer();
+        }
     }
 
     private function writeFrame(int $frameType, int $colId)
@@ -139,14 +154,15 @@ class TDataWriter extends TBinFmt
     {
         if (strlen($data) >= 64000)
             throw new \InvalidArgumentException("VarChar data frame is to big: limit 64000 byte.");
-        $this->write(pack("S", strlen($data)) .  $data);
+        $enc = gzencode($data);
+        $this->write(pack("S", strlen($enc)) .  $enc);
     }
 
 
     private function writeColIdAssign(int $colId, string $columnName)
     {
         $this->writeFrame(self::TYPE_NAME_ASSIGN, $colId);
-        $columnNamePacked = gzencode($columnName, 5);
+        $columnNamePacked = $columnName; //gzencode($columnName, 5);
         $len = strlen($columnNamePacked);
         if ($len > 255)
             throw new \InvalidArgumentException("Column name '$columnName' too long (max size: 255 byte)");
@@ -163,6 +179,7 @@ class TDataWriter extends TBinFmt
             $newColId = count(array_keys($this->colNameIdMap));
             $this->colNameIdMap[$columnName] = $newColId;
             $this->writeColIdAssign($newColId, $columnName);
+            echo "Assign $columnName => $newColId\n";
         }
         $colId = $this->colNameIdMap[$columnName];
 
@@ -214,13 +231,16 @@ class TDataWriter extends TBinFmt
 
 
 
-    public function getStats()
+    public function getStats() : array
     {
-        return $this->stats;
+        $stats = $this->stats;
+        $stats["col_name_count"] = count(array_keys($this->colNameIdMap));
+        return $stats;
     }
 
     public function close() : PhoreFile
     {
+        $this->flushOutputBuffer();
         $this->writeFrame(self::TYPE_EOF, 0);
         $this->writePayload(self::TYPE_INT64, $this->numRows);
         return $this->fileStream->fclose();

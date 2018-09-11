@@ -5,3 +5,11 @@
 ```
 composer require talpa/binfmt
 ```
+
+
+## Formats
+
+### Event formats
+
+- Different values from Different sensors
+

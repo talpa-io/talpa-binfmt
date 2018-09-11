@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 /**
  * Created by PhpStorm.
@@ -5,3 +6,87 @@
  * Date: 07.09.18
  * Time: 12:47
  */
+
+namespace App;
+
+use Phore\Cli\CliController;
+use Talpa\BinFmt\V1\TCLDataReader;
+use Talpa\BinFmt\V1\TCLDataWriter;
+
+require __DIR__ . "/../vendor/autoload.php";
+
+
+$group = \Phore\Cli\CliController::GetInstance()->group("tbfc");
+
+$group->command("pack")
+    ->withString("input", "the input file")
+    ->withString("out", "output file")
+    ->run(function($input, $out) {
+
+
+        $in = phore_file($input)->assertFile()->fopen("r");
+        $out = phore_file($out)->fopen("w");
+
+        $writer = new TCLDataWriter($out);
+
+        $minTime = strtotime("2018-01-01 00:00:00");
+        $firstTs = null;
+        while ( ! $in->feof()) {
+            $data = $in->freadcsv(0, "\t");
+
+            if ( ! is_array($data) || count($data) !== 4) {
+                echo "\nignore" . print_r($data);
+                continue;
+            }
+
+
+            $timestamp = $data[0];
+            if ($timestamp < $minTime) {
+                echo "Timestamp $timestamp before 2018";
+                continue;
+            }
+            $colName = $data[1];
+            $mu = $data[2];
+            $value = $data[3];
+            if ($mu == "bit" && $value == 3)
+                continue;
+            if ($value == "")
+                continue;
+
+            if ($firstTs === null)
+                $firstTs = $timestamp;
+            //phore_log("Ts: {$timestamp} ColName: $colName Measure: {$mu} Value: {$value}");
+            $writer->inject($timestamp, $colName . ":" . $mu, $value);
+        }
+        $writer->close();
+        $in->fclose();
+
+        echo "\nOK Imported " . date("Y-m-d H:i:s", $firstTs) . " - " . date("Y-m-d H:i:s", $timestamp);
+        print_r($writer->getStats());
+    });
+
+
+$group->command("unpack")
+    ->withString("input", "the tbf input file")
+    ->withString("out", "Output file")
+    ->withString("include", "Include coloums", null)
+    ->run (function ($input, $out, $include=null) {
+        $in = phore_file($input)->assertFile()->fopen("r");
+        $out = phore_file($out)->fopen("w");
+
+        $incCols = [];
+        if ($include !== null)
+            $incCols = explode(";", $include);
+
+        $reader = new TCLDataReader($in);
+        $reader->setOnDataCb(function ($ts, $colName, $value) use ($out) {
+            $out->fputcsv([$ts, $colName, $value], "\t");
+        });
+        $reader->parse($incCols);
+        $out->fclose();
+        $in->fclose();
+    });
+
+CliController::GetInstance()->dispatch();
+
+

@@ -11,7 +11,7 @@ namespace Talpa\BinFmt\V1;
 
 use Phore\FileSystem\FileStream;
 
-class TDataReader extends TBinFmt
+class TCLDataReader extends TBinFmt
 {
 
     private $fileStream;
@@ -32,7 +32,7 @@ class TDataReader extends TBinFmt
         $this->pullMore = function() {
             if ($this->fileStream->feof())
                 throw new \InvalidArgumentException("End of input stream before eof data frame packet recieved. File corruption.");
-            $this->buffer .= $this->fileStream->fread(8000);
+            $this->buffer .= $this->fileStream->fread(64000);
         };
     }
 
@@ -71,7 +71,7 @@ class TDataReader extends TBinFmt
         if ($type === self::TYPE_STRING) {
             //echo "string";
             $header = unpack("S", $this->read(2));
-            $data = $this->read($header[1]);
+            $data = gzdecode($this->read($header[1]));
             return $data;
         }
         throw new \InvalidArgumentException("Invalid payload type '$type'");
@@ -81,13 +81,17 @@ class TDataReader extends TBinFmt
 
     private $onDataCb;
 
+    private $colIdToNameMap = [];
+
     public function setOnDataCb(callable $cb)
     {
         $this->onDataCb = $cb;
     }
 
-    public function parse(array $includeIds = [])
+    public function parse(array $includeCols = [])
     {
+
+
 
         //echo "First frame:";
         $data = $this->readDataFrame($type, $colId);
@@ -96,13 +100,25 @@ class TDataReader extends TBinFmt
         $this->metadata = json_decode($this->readPayload(self::TYPE_STRING));
         //echo "\nMetadtat";
 
+        $includeIds = [];
         while (true) {
             //sleep (1);
+
 
             $this->readDataFrame($type, $colId);
             //$frame = $this->readDataFrame();
             //$type = $frame["type"];
             //$colId = $frame["colId"];
+            if ($type == self::TYPE_NAME_ASSIGN) {
+                $len = unpack("clen", $this->read(1))["len"];
+                $colName = $this->read($len);
+                //echo "Assign $colId => $colName\n";
+                $colExp = explode(":", $colName);
+                $this->colIdToNameMap[$colId] = $colExp;
+                if (in_array($colExp[0], $includeCols) || empty($includeCols))
+                    $includeIds[$colId] = true;
+                continue;
+            }
             if ($type <= 204) {
                // echo "\nBASIC VALUE $type";
                 $value = $type;
@@ -115,10 +131,12 @@ class TDataReader extends TBinFmt
                 if ($type === self::TYPE_TRUE)
                     $value = true;
                 $this->lastColData[$colId] = $value;
-                ($this->onDataCb)($this->curTs, $colId, $value);
+                if (isset ($includeIds[$colId]))
+                    ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
                 continue;
             }
+
             if ($type == self::TYPE_SET_TIMESTAMP) {
                // echo "\nSET_TIMESTAMP";
                 $newTs = $this->readPayload(self::TYPE_INT64) / self::TS_MULTIPLY;
@@ -133,7 +151,8 @@ class TDataReader extends TBinFmt
 
             if ($type == self::TYPE_UNMODIFIED) {
                 //echo "\nUNMODIFIED";
-                ($this->onDataCb)($this->curTs, $colId, $this->lastColData[$colId]);
+                if (isset ($includeIds[$colId]))
+                    ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $this->lastColData[$colId], $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
                 continue;
             }
@@ -148,7 +167,8 @@ class TDataReader extends TBinFmt
 
             $value = $this->readPayload($type);
             $this->lastColData[$colId] = $value;
-            ($this->onDataCb)($this->curTs, $colId, $value);
+            if (isset ($includeIds[$colId]))
+                ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
             $this->rowCount++;
 
         }

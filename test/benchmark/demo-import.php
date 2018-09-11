@@ -9,13 +9,13 @@ namespace Test;
 
 use Phore\FileSystem\GzFileStream;
 use Phore\Log\PhoreStopWatch;
-use Talpa\BinFmt\V1\TDataWriter;
+use Talpa\BinFmt\V1\TCLDataWriter;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
 
 $outFp = new GzFileStream("demo.bin", "w");
-$writer = new TDataWriter($outFp, ["some"=>"metadata"]);
+$writer = new TCLDataWriter($outFp, ["some"=>"metadata"]);
 
 
 $fp = fopen("/opt/mock/pescher.tsv", "r");

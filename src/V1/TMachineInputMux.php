@@ -27,10 +27,10 @@ class TMachineInputMux
     {
         $this->onCloseFn = $onCloseFn;
         $this->columnIndex = $columnIndex;
-        $this->mainWriter = new TDataWriter(new GzFileStream(new PhoreTempFile("full"), "w"));
+        $this->mainWriter = new TCLDataWriter(new GzFileStream(new PhoreTempFile("full"), "w"));
         foreach ($availMux as $curMux) {
             $this->muxData[$curMux] = [
-                "writer" => new TDataWriter(new GzFileStream(new PhoreTempFile("mux-$curMux-"), "w")),
+                "writer" => new TCLDataWriter(new GzFileStream(new PhoreTempFile("mux-$curMux-"), "w")),
                 "data" => [],
                 "ts" => null
             ];

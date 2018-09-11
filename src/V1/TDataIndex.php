@@ -25,12 +25,9 @@ class TDataIndex
     }
 
 
-    public function putTs(int $ts)
+    public function putTs(int $fromTs, int $tillTs)
     {
-        $ts = ((int)($ts / TMachineWriter::STORE_INTERVAL)) * TMachineWriter::STORE_INTERVAL;
-        if ( ! isset($this->index[$ts]))
-            $this->index[$ts] = 0;
-        $this->index[$ts]++;
+        $this->index[$fromTs] = $tillTs;
     }
 
     public function getArray() : array

@@ -56,7 +56,9 @@ class TBinFmt
     const TYPE_SET_TIMESTAMP = 240;
     const TYPE_SHIFT_TIMESTAMP = 241;
 
-    const TYPE_FILE_VERSION = 250;
+
+    const TYPE_FILE_VERSION = 250; // Talpa Combined Log Format
+    const TYPE_NAME_ASSIGN = 251;
     const TYPE_EOF = 249;
 
     const TS_MULTIPLY = 1000;
