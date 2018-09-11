@@ -37,8 +37,8 @@ class TCLDataWriter extends TBinFmt
 
     private $numRows = 0;
 
-    const OUTPUT_BUFFER_LENGTH = 32000;
-    const GZ_COMPRESSION_LEVEL = 7;
+    const OUTPUT_BUFFER_LENGTH = 128000; // Optimal (for file usage)
+    const GZ_COMPRESSION_LEVEL = 7; //Optimal
 
     private $outputBuffer = "";
 
@@ -55,7 +55,7 @@ class TCLDataWriter extends TBinFmt
     private function flushOutputBuffer()
     {
         $compressed = gzencode($this->outputBuffer, self::GZ_COMPRESSION_LEVEL);
-        $this->fileStream->fwrite(pack("S", strlen($compressed)) . $compressed);
+        $this->fileStream->fwrite(pack("L", strlen($compressed)) . $compressed);
         $this->outputBuffer = "";
     }
 
@@ -154,7 +154,7 @@ class TCLDataWriter extends TBinFmt
     {
         if (strlen($data) >= 64000)
             throw new \InvalidArgumentException("VarChar data frame is to big: limit 64000 byte.");
-        $enc = gzencode($data);
+        $enc = $data;
         $this->write(pack("S", strlen($enc)) .  $enc);
     }
 
@@ -240,9 +240,10 @@ class TCLDataWriter extends TBinFmt
 
     public function close() : PhoreFile
     {
-        $this->flushOutputBuffer();
+
         $this->writeFrame(self::TYPE_EOF, 0);
         $this->writePayload(self::TYPE_INT64, $this->numRows);
+        $this->flushOutputBuffer();
         return $this->fileStream->fclose();
     }
 

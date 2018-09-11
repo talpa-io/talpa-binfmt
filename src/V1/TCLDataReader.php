@@ -32,9 +32,15 @@ class TCLDataReader extends TBinFmt
         $this->pullMore = function() {
             if ($this->fileStream->feof())
                 throw new \InvalidArgumentException("End of input stream before eof data frame packet recieved. File corruption.");
-            $this->buffer .= $this->fileStream->fread(64000);
+            $data = $this->fileStream->fread(4);
+            $linesToRead = unpack("Llen", $data)["len"];
+
+            $this->buffer = gzdecode($this->fileStream->fread($linesToRead));
+            if ($this->buffer === false)
+                throw new \InvalidArgumentException("Gzip error: Cannot decode data frame.");
         };
     }
+
 
 
     private function read(int $length)
@@ -71,7 +77,7 @@ class TCLDataReader extends TBinFmt
         if ($type === self::TYPE_STRING) {
             //echo "string";
             $header = unpack("S", $this->read(2));
-            $data = gzdecode($this->read($header[1]));
+            $data = $this->read($header[1]);
             return $data;
         }
         throw new \InvalidArgumentException("Invalid payload type '$type'");
