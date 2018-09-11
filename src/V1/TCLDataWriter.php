@@ -24,6 +24,8 @@ class TDataWriter extends TBinFmt
 
     private $colLastData = [];
 
+    private $colNameIdMap = [];
+
     private $stats = [
         "strings" => 0,
         "numeric" => 0,
@@ -135,15 +137,34 @@ class TDataWriter extends TBinFmt
 
     private function writeVarCharFrame (string $data)
     {
-        if (strlen($data) >= 65536)
-            throw new \InvalidArgumentException("VarChar data frame is to big: limit 65536 byte.");
+        if (strlen($data) >= 64000)
+            throw new \InvalidArgumentException("VarChar data frame is to big: limit 64000 byte.");
         $this->write(pack("S", strlen($data)) .  $data);
     }
 
 
-    public function inject(float $timestamp, int $colId, $value)
+    private function writeColIdAssign(int $colId, string $columnName)
+    {
+        $this->writeFrame(self::TYPE_NAME_ASSIGN, $colId);
+        $columnNamePacked = gzencode($columnName, 5);
+        $len = strlen($columnNamePacked);
+        if ($len > 255)
+            throw new \InvalidArgumentException("Column name '$columnName' too long (max size: 255 byte)");
+        $this->write(pack("c", $len));
+        $this->write($columnName);
+    }
+
+
+    public function inject(float $timestamp, string $columnName, $value)
     {
         $this->numRows++;
+
+        if ( ! isset ($this->colNameIdMap[$columnName])) {
+            $newColId = count(array_keys($this->colNameIdMap));
+            $this->colNameIdMap[$columnName] = $newColId;
+            $this->writeColIdAssign($newColId, $columnName);
+        }
+        $colId = $this->colNameIdMap[$columnName];
 
         $timestamp = (int)($timestamp * self::TS_MULTIPLY);
         if ($this->timestamp === null || ($timestamp - $this->timestamp) > 64 * self::TS_MULTIPLY) {
