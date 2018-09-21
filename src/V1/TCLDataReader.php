@@ -33,11 +33,19 @@ class TCLDataReader extends TBinFmt
             if ($this->fileStream->feof())
                 throw new \InvalidArgumentException("End of input stream before eof data frame packet recieved. File corruption.");
             $data = $this->fileStream->fread(4);
-            $linesToRead = unpack("Llen", $data)["len"];
+            $bytesToRead = unpack("Llen", $data)["len"];
 
-            $this->buffer = gzdecode($this->fileStream->fread($linesToRead));
+            $buf = $this->fileStream->fread($bytesToRead);
+            while (strlen($buf) < $bytesToRead) {
+                usleep(1000);
+                if ($this->fileStream->feof())
+                    throw new \InvalidArgumentException("Broken input pipe.");
+                $buf .= $this->fileStream->fread($bytesToRead - strlen($buf));
+            }
+
+            $this->buffer = gzdecode($buf);
             if ($this->buffer === false)
-                throw new \InvalidArgumentException("Gzip error: Cannot decode data frame.");
+                throw new \InvalidArgumentException("Gzip error: Cannot decode data frame: $buf");
         };
     }
 
@@ -96,29 +104,17 @@ class TCLDataReader extends TBinFmt
 
     public function parse(array $includeCols = [])
     {
-
-
-
-        //echo "First frame:";
         $data = $this->readDataFrame($type, $colId);
         if ($type !== self::TYPE_FILE_VERSION || $colId !== 1)
             throw new \InvalidArgumentException("Unknown file format. Requires talpa binfmt v1");
         $this->metadata = json_decode($this->readPayload(self::TYPE_STRING));
-        //echo "\nMetadtat";
 
         $includeIds = [];
         while (true) {
-            //sleep (1);
-
-
             $this->readDataFrame($type, $colId);
-            //$frame = $this->readDataFrame();
-            //$type = $frame["type"];
-            //$colId = $frame["colId"];
             if ($type == self::TYPE_NAME_ASSIGN) {
                 $len = unpack("clen", $this->read(1))["len"];
                 $colName = $this->read($len);
-                //echo "Assign $colId => $colName\n";
                 $colExp = explode(":", $colName);
                 $this->colIdToNameMap[$colId] = $colExp;
                 if (in_array($colExp[0], $includeCols) || empty($includeCols))
@@ -126,7 +122,6 @@ class TCLDataReader extends TBinFmt
                 continue;
             }
             if ($type <= 204) {
-               // echo "\nBASIC VALUE $type";
                 $value = $type;
                 if ($type === self::TYPE_EMPTY_STRING)
                     $value = "";
@@ -144,19 +139,16 @@ class TCLDataReader extends TBinFmt
             }
 
             if ($type == self::TYPE_SET_TIMESTAMP) {
-               // echo "\nSET_TIMESTAMP";
                 $newTs = $this->readPayload(self::TYPE_INT64) / self::TS_MULTIPLY;
                 $this->curTs = $newTs;
                 continue;
             }
             if ($type == self::TYPE_SHIFT_TIMESTAMP) {
-               // echo "\nSHIFT_TIMESTAMP";
                 $this->curTs += $colId / self::TS_MULTIPLY;
                 continue;
             }
 
             if ($type == self::TYPE_UNMODIFIED) {
-                //echo "\nUNMODIFIED";
                 if (isset ($includeIds[$colId]))
                     ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $this->lastColData[$colId], $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
@@ -164,7 +156,6 @@ class TCLDataReader extends TBinFmt
             }
 
             if ($type == self::TYPE_EOF) {
-                //echo "\nEOF";
                 $rowCount = $this->readPayload(self::TYPE_INT64);
                 if ($rowCount !== $this->rowCount)
                     throw new \InvalidArgumentException("Row count mismatch: Should be '$rowCount' but actual '{$this->rowCount}'");

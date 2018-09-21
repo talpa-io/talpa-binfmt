@@ -6,6 +6,15 @@
 composer require talpa/binfmt
 ```
 
+Install the command line tool
+
+
+
+## Usting the tbfc command line tool
+
+```
+cat test/mock/demo.in.txt | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout
+```
 
 ## Formats
 

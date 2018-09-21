@@ -20,13 +20,20 @@ $group = \Phore\Cli\CliController::GetInstance()->group("tbfc");
 
 $group->command("pack")
     ->withString("input", "the input file")
+    ->withBool("stdin", "read from strdin")
+    ->withBool("stdout", "Write to stdout")
     ->withString("out", "output file")
-    ->run(function($input, $out) {
-
-
-        $in = phore_file($input)->assertFile()->fopen("r");
-        $out = phore_file($out)->fopen("w");
-
+    ->run(function($input, bool $stdin, bool $stdout, $out) {
+        if ($stdin) {
+            $in = phore_file("php://stdin")->asFile()->fopen("r");
+        } else {
+            $in = phore_file($input)->assertFile()->fopen("r");
+        }
+        if ($stdout) {
+            $out = phore_file("php://stdout")->fopen("w");
+        } else {
+            $out = phore_file($out)->fopen("w");
+        }
         $writer = new TCLDataWriter($out);
 
         $minTime = strtotime("2018-01-01 00:00:00");
@@ -35,21 +42,21 @@ $group->command("pack")
             $data = $in->freadcsv(0, "\t");
 
             if ( ! is_array($data) || count($data) !== 4) {
-                echo "\nignore" . print_r($data);
+                phore_log()->warn("Ignoring line " . print_r ($data, true));
                 continue;
             }
 
 
             $timestamp = $data[0];
             if ($timestamp < $minTime) {
-                echo "Timestamp $timestamp before 2018";
+                phore_log()->warn("Timestamp $timestamp before 2018");
                 continue;
             }
             $colName = $data[1];
             $mu = $data[2];
             $value = $data[3];
             if ($mu == "bit" && $value == 3)
-                continue;
+                continue; // -> Error in parsing
             if ($value == "")
                 continue;
 
@@ -61,26 +68,38 @@ $group->command("pack")
         $writer->close();
         $in->fclose();
 
-        echo "\nOK Imported " . date("Y-m-d H:i:s", $firstTs) . " - " . date("Y-m-d H:i:s", $timestamp);
-        print_r($writer->getStats());
+        phore_log()->info("OK Imported " . date("Y-m-d H:i:s", $firstTs) . " - " . date("Y-m-d H:i:s", @$timestamp) . print_r($writer->getStats(), true));
+
     });
 
 
 $group->command("unpack")
     ->withString("input", "the tbf input file")
+    ->withBool("stdin", "read from strdin")
+    ->withBool("stdout", "Write to stdout")
     ->withString("out", "Output file")
     ->withString("include", "Include coloums", null)
-    ->run (function ($input, $out, $include=null) {
-        $in = phore_file($input)->assertFile()->fopen("r");
-        $out = phore_file($out)->fopen("w");
+    ->run (function ($input, $out, bool $stdin, bool $stdout, $include=null) {
+
+        if ($stdin) {
+            $in = phore_file("php://stdin")->asFile()->fopen("r");
+        } else {
+            $in = phore_file($input)->assertFile()->fopen("r");
+        }
+        if ($stdout) {
+            $out = phore_file("php://stdout")->fopen("w");
+        } else {
+            $out = phore_file($out)->fopen("w");
+        }
+
 
         $incCols = [];
         if ($include !== null)
             $incCols = explode(";", $include);
 
         $reader = new TCLDataReader($in);
-        $reader->setOnDataCb(function ($ts, $colName, $value) use ($out) {
-            $out->fputcsv([$ts, $colName, $value], "\t");
+        $reader->setOnDataCb(function ($ts, $colName, $value, $measure) use ($out) {
+            $out->fputcsv([$ts, $colName, $measure, $value], "\t");
         });
         $reader->parse($incCols);
         $out->fclose();

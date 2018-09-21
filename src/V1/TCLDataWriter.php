@@ -179,7 +179,6 @@ class TCLDataWriter extends TBinFmt
             $newColId = count(array_keys($this->colNameIdMap));
             $this->colNameIdMap[$columnName] = $newColId;
             $this->writeColIdAssign($newColId, $columnName);
-            echo "Assign $columnName => $newColId\n";
         }
         $colId = $this->colNameIdMap[$columnName];
 

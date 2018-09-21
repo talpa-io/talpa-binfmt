@@ -3,3 +3,5 @@
 /etc/*
 *.bin
 *.tsv
+*.out
+*.tbf
