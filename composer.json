@@ -6,18 +6,22 @@
   "authors": [
     { "name": "Matthias Leuffen", "email": "m@tth.es" }
   ],
+  "bin": [
+    "bin/tbfc"
+  ],
   "repositories": [
   ],
   "require": {
     "php": ">=7.1",
     "ext-json": "*",
     "ext-zlib": "*",
-    "rybakit/msgpack": "dev-master",
     "phore/log": "dev-master",
-    "phore/objectstore": "dev-master",
     "phore/filesystem": "dev-master",
-    "google/cloud-storage": "dev-master",
     "phore/cli": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4@dev",
+    "nette/tester": "^2.1@dev"
   },
   "autoload": {
     "psr-4": {
@@ -27,8 +31,5 @@
 
     ]
   },
-  "minimum-stability": "dev",
-  "require-dev": {
-    "nette/tester": "^2.1@dev"
-  }
+  "minimum-stability": "dev"
 }
