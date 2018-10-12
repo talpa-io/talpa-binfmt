@@ -18,19 +18,17 @@ class TColumnIndex
     private $startTs;
 
 
-    public function __construct(array $columnIndex, int $startTs)
+    public function __construct(array $columnIndex)
     {
-        $this->startTs = ((int)($startTs / 3600)) * 3600; // Only track changes once per hour
         $this->columnIndex = $columnIndex;
         foreach ($this->columnIndex as $colName => $columnIndex) {
             $this->colIdToNameIdx[$columnIndex["id"]] = $colName;
         }
     }
 
-    public function trackRow (string $colName, string $measureUnit, $value)
+    public function trackRow (float $ts, string $colName, string $measureUnit, $value)
     {
         $columnIndex =& $this->columnIndex;
-        $ts = $this->startTs;
         if ( ! isset ($columnIndex[$colName])) {
             $columnIndex[$colName] = [
                 "id" => count(array_keys($columnIndex))+1,
@@ -44,8 +42,11 @@ class TColumnIndex
             $this->colIdToNameIdx[$columnIndex[$colName]["id"]] = $colName;
             $this->isModified = true;
         }
-        if ($ts > $columnIndex[$colName]["last_seen_ts"]) {
-            $columnIndex[$colName]["last_seen_ts"] = $ts;
+
+        $tsHourly = ((int)($ts / 3600)) * 3600;
+
+        if ($tsHourly > $columnIndex[$colName]["last_seen_ts"]) {
+            $columnIndex[$colName]["last_seen_ts"] = $tsHourly;
             $this->isModified = true;
         }
 
