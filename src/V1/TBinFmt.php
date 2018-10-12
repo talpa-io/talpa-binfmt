@@ -11,10 +11,6 @@ namespace Talpa\BinFmt\V1;
 
 class TBinFmt
 {
-
-
-
-
     const TYPE_NULL =  201;
     const TYPE_FALSE = 202;
     const TYPE_TRUE =  203;
@@ -32,6 +28,7 @@ class TBinFmt
 
     const TYPE_DOUBLE = 220;
     const TYPE_FLOAT = 221;
+    const TYPE_MIN_FLOAT = 222;
 
     const TYPE_MAP = [
         self::TYPE_INT8 =>      ["c", 1,  1],
@@ -46,6 +43,7 @@ class TBinFmt
         self::TYPE_INT64 =>     ["q", 8,  1],
         self::TYPE_INT64_NEG => ["q", 8, -1],
 
+        self::TYPE_MIN_FLOAT => ["s", 2, 1000],
         self::TYPE_DOUBLE =>    ["d", 8,  1],
         self::TYPE_FLOAT =>     ["f", 4,  1],
     ];

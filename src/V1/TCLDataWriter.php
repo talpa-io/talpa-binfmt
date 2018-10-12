@@ -84,8 +84,12 @@ class TCLDataWriter extends TBinFmt
                 $value = (int)$matches[1];
             }
             if (strpos($value, ".") !== false) {
+                $decimalPlaces = (strlen($value) - strpos($value, ".")) - 1;
                 $value = floatval($value);
-                if ($value > 99 || $value < 99)
+                if ($value > -32 && $value < 32 && $decimalPlaces <= 3) {
+                    return self::TYPE_MIN_FLOAT;
+                }
+                if ($value > 9999 || $value < -9999)
                     return self::TYPE_FLOAT;
                 return self::TYPE_DOUBLE;
             }

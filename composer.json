@@ -17,6 +17,7 @@
     "ext-zlib": "*",
     "phore/log": "dev-master",
     "phore/filesystem": "dev-master",
+    "phore/objectstore": "dev-master",
     "phore/cli": "dev-master"
   },
   "require-dev": {
