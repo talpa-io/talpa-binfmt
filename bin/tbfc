@@ -10,6 +10,8 @@
 namespace App;
 
 use Phore\Cli\CliController;
+use Phore\Log\Logger\PhoreEchoLogger;
+use Phore\Log\PhoreLog;
 use Talpa\BinFmt\V1\TCLDataReader;
 use Talpa\BinFmt\V1\TCLDataWriter;
 
@@ -38,7 +40,7 @@ $group->command("pack")
             $out = phore_file($out)->fopen("w");
         }
         $writer = new TCLDataWriter($out);
-
+        PhoreLog::Init(new PhoreEchoLogger());
         $minTime = strtotime("2018-01-01 00:00:00");
         $firstTs = null;
         while ( ! $in->feof()) {

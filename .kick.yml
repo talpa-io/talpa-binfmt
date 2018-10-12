@@ -11,7 +11,7 @@ command:
     - "vendor/bin/tester -C tests/"
 
   test_bin:
-    - "cat test/_mock/demo.in.txt | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout"
+    - "cat test/input.tsv | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout > test/out.tsv"
 
   bench:
     - "php -f test/benchmark/file-reader-buffered.php"

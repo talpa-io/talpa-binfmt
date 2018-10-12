@@ -83,15 +83,26 @@ class TCLDataWriter extends TBinFmt
             if (preg_match ("/^([0-9]+)\.0+$/", $value, $matches)) {
                 $value = (int)$matches[1];
             }
+            $value = (float)$value;
+           // phore_log("$value");
             if (strpos($value, ".") !== false) {
                 $decimalPlaces = (strlen($value) - strpos($value, ".")) - 1;
                 $value = floatval($value);
                 if ($value > -32 && $value < 32 && $decimalPlaces <= 3) {
-                    return self::TYPE_MIN_FLOAT;
+                    return self::TYPE_MIN3_FLOAT; // 2 byte
                 }
-                if ($value > 9999 || $value < -9999)
-                    return self::TYPE_FLOAT;
-                return self::TYPE_DOUBLE;
+                if ($value > -320 && $value < 320 && $decimalPlaces <= 2) {
+                    return self::TYPE_MIN2_FLOAT; // 2 byte
+                }
+                if ($value > -3200 && $value < 3200 && $decimalPlaces <= 1) {
+                    return self::TYPE_MIN1_FLOAT; // 2 byte
+                }
+                if ($value >= -211000 && $value <= 211000 && $decimalPlaces <= 4) {
+                    return self::TYPE_MED_FLOAT; // 4 byte
+                }
+                if ($value > 211000 || $value < -211000)
+                    return self::TYPE_FLOAT; // 4 byte
+                return self::TYPE_DOUBLE; // 8 byte
             }
             if ($value < 0) {
                 // Singed value

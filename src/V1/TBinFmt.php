@@ -28,14 +28,18 @@ class TBinFmt
 
     const TYPE_DOUBLE = 220;
     const TYPE_FLOAT = 221;
-    const TYPE_MIN_FLOAT = 222;
+    const TYPE_MIN3_FLOAT = 222; // 3 decimals
+    const TYPE_MIN2_FLOAT = 223; // 2 decimals
+    const TYPE_MIN1_FLOAT = 224; // 1 decimals
+
+    const TYPE_MED_FLOAT = 225;
 
     const TYPE_MAP = [
         self::TYPE_INT8 =>      ["c", 1,  1],
         self::TYPE_INT8_NEG =>  ["c", 1, -1],
 
         self::TYPE_INT16 =>     ["S", 2,  1],
-        self::TYPE_INT16_NEG => ["s", 2, -1],
+        self::TYPE_INT16_NEG => ["S", 2, -1],
 
         self::TYPE_INT32 =>     ["l", 4,  1],
         self::TYPE_INT32_NEG => ["l", 4, -1],
@@ -43,7 +47,11 @@ class TBinFmt
         self::TYPE_INT64 =>     ["q", 8,  1],
         self::TYPE_INT64_NEG => ["q", 8, -1],
 
-        self::TYPE_MIN_FLOAT => ["s", 2, 1000],
+        self::TYPE_MIN3_FLOAT => ["s", 2, 1000],
+        self::TYPE_MIN2_FLOAT => ["s", 2, 100],
+        self::TYPE_MIN1_FLOAT => ["s", 2, 10],
+
+        self::TYPE_MED_FLOAT => ["l", 4, 10000], // 4 decimal places
         self::TYPE_DOUBLE =>    ["d", 8,  1],
         self::TYPE_FLOAT =>     ["f", 4,  1],
     ];
