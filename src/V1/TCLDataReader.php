@@ -105,6 +105,7 @@ class TCLDataReader extends TBinFmt
     public function parse(FileStream $fileStream, array $includeCols = [])
     {
         $this->fileStream = $fileStream;
+        $this->rowCount = 0;
         $data = $this->readDataFrame($type, $colId);
         if ($type !== self::TYPE_FILE_VERSION || $colId !== 1)
             throw new \InvalidArgumentException("Unknown file format. Requires talpa binfmt v1");
