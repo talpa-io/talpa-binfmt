@@ -60,10 +60,6 @@ $group->command("pack")
             $colName = $data[1];
             $mu = $data[2];
             $value = $data[3];
-            if ($mu == "bit" && $value == 3)
-                continue; // -> Error in parsing
-            if ($value == "")
-                continue;
 
             if ($firstTs === null)
                 $firstTs = $timestamp;
@@ -102,11 +98,11 @@ $group->command("unpack")
         if ($include !== null)
             $incCols = explode(";", $include);
 
-        $reader = new TCLDataReader($in);
+        $reader = new TCLDataReader();
         $reader->setOnDataCb(function ($ts, $colName, $value, $measure) use ($out) {
             $out->fputcsv([$ts, $colName, $measure, $value], "\t");
         });
-        $reader->parse($incCols);
+        $reader->parse($in, $incCols);
         $out->fclose();
         $in->fclose();
     });

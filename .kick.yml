@@ -11,6 +11,9 @@ command:
     - "vendor/bin/tester -C tests/"
 
   test_bin:
+  - "cat test/input.tsv | bin/tbfc --tbfc --pack --stdin --stdout > test/bin_out.bin"
+
+  test_bin_dec:
     - "cat test/input.tsv | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout > test/out.tsv"
 
   bench:

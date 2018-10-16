@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-filesystem.git",
-                "reference": "a8f53159d06405e8e7a0fbe5dcee784a67f9007d"
+                "reference": "cb477879c7a6521d9c223b167fdd4f7891467c1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/a8f53159d06405e8e7a0fbe5dcee784a67f9007d",
-                "reference": "a8f53159d06405e8e7a0fbe5dcee784a67f9007d",
+                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/cb477879c7a6521d9c223b167fdd4f7891467c1a",
+                "reference": "cb477879c7a6521d9c223b167fdd4f7891467c1a",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                     "email": "leuffen@continue.de"
                 }
             ],
-            "time": "2018-10-11T11:24:13+00:00"
+            "time": "2018-10-12T13:51:31+00:00"
         },
         {
             "name": "phore/log",
@@ -239,12 +239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-objectstore.git",
-                "reference": "a7a8c8ea8019e0e962f47d20fc5b844e3fb76113"
+                "reference": "2e7d8712d9b54fea80ec29ff37ea221cbcc6ebd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-objectstore/zipball/a7a8c8ea8019e0e962f47d20fc5b844e3fb76113",
-                "reference": "a7a8c8ea8019e0e962f47d20fc5b844e3fb76113",
+                "url": "https://api.github.com/repos/phore/phore-objectstore/zipball/2e7d8712d9b54fea80ec29ff37ea221cbcc6ebd4",
+                "reference": "2e7d8712d9b54fea80ec29ff37ea221cbcc6ebd4",
                 "shasum": ""
             },
             "require": {
@@ -280,7 +280,7 @@
                 }
             ],
             "description": "Object store for local files, google, aws",
-            "time": "2018-10-10T15:19:36+00:00"
+            "time": "2018-10-12T13:58:13+00:00"
         },
         {
             "name": "psr/container",
@@ -339,12 +339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8f58c558d3263405c13df40489c35fe1eefd8f0e"
+                "reference": "8c8c1afee0f929f17528fe1721de5d58e15f71c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8f58c558d3263405c13df40489c35fe1eefd8f0e",
-                "reference": "8f58c558d3263405c13df40489c35fe1eefd8f0e",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8c8c1afee0f929f17528fe1721de5d58e15f71c7",
+                "reference": "8c8c1afee0f929f17528fe1721de5d58e15f71c7",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2018-09-25T21:32:24+00:00"
+            "time": "2018-10-15T11:30:00+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -821,12 +821,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "daeb2717f3bb0638e71b6dbe06f52fc5abcf186e"
+                "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/daeb2717f3bb0638e71b6dbe06f52fc5abcf186e",
-                "reference": "daeb2717f3bb0638e71b6dbe06f52fc5abcf186e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0685fb6a43aed1b2e09804d1aaf17144c82861f8",
+                "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
@@ -876,7 +876,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-10-12T04:51:12+00:00"
+            "time": "2018-10-16T05:37:37+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

@@ -26,9 +26,9 @@ class TCLDataReader extends TBinFmt
     private $pullMore;
 
 
-    public function __construct(FileStream $fileStream)
+    public function __construct()
     {
-        $this->fileStream = $fileStream;
+
         $this->pullMore = function() {
             if ($this->fileStream->feof())
                 throw new \InvalidArgumentException("End of input stream before eof data frame packet recieved. File corruption.");
@@ -102,8 +102,9 @@ class TCLDataReader extends TBinFmt
         $this->onDataCb = $cb;
     }
 
-    public function parse(array $includeCols = [])
+    public function parse(FileStream $fileStream, array $includeCols = [])
     {
+        $this->fileStream = $fileStream;
         $data = $this->readDataFrame($type, $colId);
         if ($type !== self::TYPE_FILE_VERSION || $colId !== 1)
             throw new \InvalidArgumentException("Unknown file format. Requires talpa binfmt v1");
