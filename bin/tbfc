@@ -27,8 +27,9 @@ $group->command("pack")
     ->withString("input", "the input file")
     ->withBool("stdin", "read from strdin")
     ->withBool("stdout", "Write to stdout")
+    ->withBool("indurad5colQuickfix", "Quick fix to fix indurad 5 column format")
     ->withString("out", "output file")
-    ->run(function($input, bool $stdin, bool $stdout, $out) {
+    ->run(function($input, bool $stdin, bool $stdout, $out, bool $indurad5colQuickfix) {
         if ($stdin) {
             $in = phore_file("php://stdin")->asFile()->fopen("r");
         } else {
@@ -46,10 +47,18 @@ $group->command("pack")
         while ( ! $in->feof()) {
             $data = $in->freadcsv(0, "\t");
 
-            if ( ! is_array($data) || count($data) !== 4) {
-                phore_log()->warn("Ignoring line " . print_r ($data, true));
-                continue;
+            if ($indurad5colQuickfix) {
+                if ( ! is_array($data) || count($data) !== 5 ) {
+                    phore_log()->warn("Ignoring line " . print_r ($data, true));
+                    continue;
+                }
+            } else {
+                if ( ! is_array($data) || count($data) !== 4 ) {
+                    phore_log()->warn("Ignoring line " . print_r ($data, true));
+                    continue;
+                }
             }
+
 
 
             $timestamp = $data[0];
@@ -60,6 +69,8 @@ $group->command("pack")
             $colName = $data[1];
             $mu = $data[2];
             $value = $data[3];
+            if ($indurad5colQuickfix)
+                $value = $data[4];
 
             if ($firstTs === null)
                 $firstTs = $timestamp;
