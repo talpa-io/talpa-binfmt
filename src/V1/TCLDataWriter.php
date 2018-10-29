@@ -201,7 +201,8 @@ class TCLDataWriter extends TBinFmt
         $colId = $this->colNameIdMap[$columnName];
 
         $timestamp = (int)($timestamp * self::TS_MULTIPLY);
-        if ($this->timestamp === null || ($timestamp - $this->timestamp) > 64 * self::TS_MULTIPLY) {
+        if ($this->timestamp === null || ($timestamp - $this->timestamp) > 65000) {
+            // Max 2 Byte for Time Shift
             $this->writeFrame(self::TYPE_SET_TIMESTAMP, 0);
             $this->writePayload(self::TYPE_INT64, $timestamp);
             $this->timestamp = $timestamp;

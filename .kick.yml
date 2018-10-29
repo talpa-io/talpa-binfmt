@@ -19,3 +19,4 @@ command:
   bench:
     - "php -f test/benchmark/file-reader-buffered.php"
 
+
