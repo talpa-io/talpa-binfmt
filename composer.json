@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^7.4@dev",
-    "nette/tester": "^2.1@dev"
+    "phore/system": "dev-master"
   },
   "autoload": {
     "psr-4": {

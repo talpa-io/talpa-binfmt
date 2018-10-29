@@ -25,6 +25,9 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
+[*.csv]
+indent_style = tab
+
 
 # Indentation override for all JS under lib directory
 [*.js]

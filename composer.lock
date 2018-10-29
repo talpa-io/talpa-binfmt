@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "769cb8f3c0c7e74a05ec17ae516b2fdb",
+    "content-hash": "2df1117360b87d12f3534be26fe37baf",
     "packages": [
         {
             "name": "phore/cli",
@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-core.git",
-                "reference": "350cd32b5dccd49b115a5a53a55e5b79ee750b3a"
+                "reference": "36195ad991fc9f7fb3c0d88b3814d313efa272f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-core/zipball/350cd32b5dccd49b115a5a53a55e5b79ee750b3a",
-                "reference": "350cd32b5dccd49b115a5a53a55e5b79ee750b3a",
+                "url": "https://api.github.com/repos/phore/phore-core/zipball/36195ad991fc9f7fb3c0d88b3814d313efa272f0",
+                "reference": "36195ad991fc9f7fb3c0d88b3814d313efa272f0",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 }
             ],
             "description": "Phore core library",
-            "time": "2018-09-24T14:27:44+00:00"
+            "time": "2018-10-25T13:56:36+00:00"
         },
         {
             "name": "phore/di-base",
@@ -150,18 +150,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-filesystem.git",
-                "reference": "cb477879c7a6521d9c223b167fdd4f7891467c1a"
+                "reference": "2cc2db03986ed98b8216f33de13125ffb0d5136b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/cb477879c7a6521d9c223b167fdd4f7891467c1a",
-                "reference": "cb477879c7a6521d9c223b167fdd4f7891467c1a",
+                "url": "https://api.github.com/repos/phore/phore-filesystem/zipball/2cc2db03986ed98b8216f33de13125ffb0d5136b",
+                "reference": "2cc2db03986ed98b8216f33de13125ffb0d5136b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-yaml": "*",
-                "php": ">7.1"
+                "php": ">7.1",
+                "psr/http-message": "^1.0@dev"
             },
             "require-dev": {
                 "nette/tester": "*"
@@ -185,7 +186,7 @@
                     "email": "leuffen@continue.de"
                 }
             ],
-            "time": "2018-10-12T13:51:31+00:00"
+            "time": "2018-10-16T12:39:37+00:00"
         },
         {
             "name": "phore/log",
@@ -330,6 +331,56 @@
                 "psr"
             ],
             "time": "2017-06-28T15:35:32+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06T14:39:51+00:00"
         }
     ],
     "packages-dev": [
@@ -442,12 +493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "6b3e881e7c5ffb596a5dc25ab6e4efbbe27eb926"
+                "reference": "b4414531d4bc21383bc388c9bf9fade3e7d90d01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/6b3e881e7c5ffb596a5dc25ab6e4efbbe27eb926",
-                "reference": "6b3e881e7c5ffb596a5dc25ab6e4efbbe27eb926",
+                "url": "https://api.github.com/repos/nette/tester/zipball/b4414531d4bc21383bc388c9bf9fade3e7d90d01",
+                "reference": "b4414531d4bc21383bc388c9bf9fade3e7d90d01",
                 "shasum": ""
             },
             "require": {
@@ -496,7 +547,7 @@
                 "testing",
                 "unit"
             ],
-            "time": "2018-10-10T12:35:10+00:00"
+            "time": "2018-10-24T17:10:20+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -599,6 +650,44 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2018-07-08T19:19:57+00:00"
+        },
+        {
+            "name": "phore/system",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-system.git",
+                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-system/zipball/0bbebdb512542c4271851834716ddc8a4eea624b",
+                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\System\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "leuffen@continue.de"
+                }
+            ],
+            "time": "2018-08-09T16:29:31+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -821,12 +910,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8"
+                "reference": "fef2cd3802b3067f290d2cc95f311966f2d34a85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0685fb6a43aed1b2e09804d1aaf17144c82861f8",
-                "reference": "0685fb6a43aed1b2e09804d1aaf17144c82861f8",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/fef2cd3802b3067f290d2cc95f311966f2d34a85",
+                "reference": "fef2cd3802b3067f290d2cc95f311966f2d34a85",
                 "shasum": ""
             },
             "require": {
@@ -837,7 +926,7 @@
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-token-stream": "^3.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^3.1",
+                "sebastian/environment": "^3.1 || ^4.0",
                 "sebastian/version": "^2.0.1",
                 "theseer/tokenizer": "^1.1"
             },
@@ -876,7 +965,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-10-16T05:37:37+00:00"
+            "time": "2018-10-28T05:56:46+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1073,12 +1162,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9ae14a29a980fa1c8a11e15871ee9f42ef26ee70"
+                "reference": "a406c85c51edd76ace29119179d8c21f590c939e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ae14a29a980fa1c8a11e15871ee9f42ef26ee70",
-                "reference": "9ae14a29a980fa1c8a11e15871ee9f42ef26ee70",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a406c85c51edd76ace29119179d8c21f590c939e",
+                "reference": "a406c85c51edd76ace29119179d8c21f590c939e",
                 "shasum": ""
             },
             "require": {
@@ -1099,7 +1188,7 @@
                 "phpunit/php-timer": "^2.0",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
-                "sebastian/environment": "^3.1",
+                "sebastian/environment": "^3.1 || ^4.0",
                 "sebastian/exporter": "^3.1",
                 "sebastian/global-state": "^2.0",
                 "sebastian/object-enumerator": "^3.0.3",
@@ -1149,7 +1238,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-10-12T07:35:18+00:00"
+            "time": "2018-10-29T10:13:31+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1322,24 +1411,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "32c5cba90f7db47b1c10a777b36eccfd44ef8bd7"
+                "reference": "c38399052e96de3846f635b8791c2e447a06040d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/32c5cba90f7db47b1c10a777b36eccfd44ef8bd7",
-                "reference": "32c5cba90f7db47b1c10a777b36eccfd44ef8bd7",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/c38399052e96de3846f635b8791c2e447a06040d",
+                "reference": "c38399052e96de3846f635b8791c2e447a06040d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.1"
+                "phpunit/phpunit": "^7.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1.x-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -1364,7 +1453,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2018-05-15T05:48:40+00:00"
+            "time": "2018-10-23T06:03:07+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -1813,7 +1902,7 @@
         "phore/objectstore": 20,
         "phore/cli": 20,
         "phpunit/phpunit": 20,
-        "nette/tester": 20
+        "phore/system": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
