@@ -107,9 +107,4 @@ class DataWriterTest extends TestCase
         $this->assertEquals([1, "sig1", 1.1, "rpm"], $out[2]);
         $this->assertEquals([1, "sig1", -1.01, "rpm"], $out[3]);
     }
-
-
-
-
-
 }

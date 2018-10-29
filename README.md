@@ -18,7 +18,10 @@ cat test/mock/demo.in.txt | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc -
 
 ## Formats
 
-### Event formats
+## Tests 
 
-- Different values from Different sensors
+Run the unit-test:
 
+```
+kick test
+```
