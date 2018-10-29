@@ -83,10 +83,10 @@ class DataWriterTest extends TestCase
         $w->inject(1, "sig1:rpm", "1.0000000");
         $this->assertEquals(1, $w->getStats()["basic_data"]);
 
-        $w->inject(1, "sig1:rpm", 1.0000001);
+        $w->inject(1, "sig1:rpm", 1.1);
         $this->assertEquals(1, $w->getStats()["numeric"]);
 
-        $w->inject(1, "sig1:rpm", -1.0000001);
+        $w->inject(1, "sig1:rpm", -1.01);
         $this->assertEquals(2, $w->getStats()["numeric"]);
 
         $w->close();
@@ -104,47 +104,11 @@ class DataWriterTest extends TestCase
 
         $this->assertEquals([1, "sig1", "aßäöü", "rpm"], $out[0]);
         $this->assertEquals([1, "sig1", 1, "rpm"], $out[1]);
-        $this->assertEquals([1, "sig1", 1.0000001, "rpm"], $out[2]);
-        $this->assertEquals([1, "sig1", -1.0000001, "rpm"], $out[3]);
+        $this->assertEquals([1, "sig1", 1.1, "rpm"], $out[2]);
+        $this->assertEquals([1, "sig1", -1.01, "rpm"], $out[3]);
     }
 
 
-    private function _testInputOutputDataTypesEqual($input)
-    {
-        $tmpFile = new PhoreTempFile();
-        $w = new TCLDataWriter($fs = $tmpFile->fopen("w"));
-        $w->inject(1, "col1", $input, "mu");
-        $w->close();
-
-        // Read the data and compare with input-Data
-
-        $r = new TCLDataReader();
-        $out = [];
-        $r->setOnDataCb(function($timestamp, $signalName, $value, $measureUnit) use (&$out) {
-            $out[] = [$timestamp, $signalName, $value, $measureUnit];
-        });
-
-        $fs = $tmpFile->fopen("r");
-        $r->parse($fs);
-
-        return $out[0][2];
-    }
-
-
-    public function testDataTypes ()
-    {
-        $this->assertEquals(1, $this->_testInputOutputDataTypesEqual(1));
-        $this->assertEquals(-1, $this->_testInputOutputDataTypesEqual(-1));
-
-        $this->assertEquals(100, $this->_testInputOutputDataTypesEqual(100));
-        $this->assertEquals(-100, $this->_testInputOutputDataTypesEqual(-100));
-
-        $this->assertEquals(1.1, $this->_testInputOutputDataTypesEqual(1.1));
-        $this->assertEquals(-1.1, $this->_testInputOutputDataTypesEqual(-1.1));
-
-        $this->assertEquals(200, $this->_testInputOutputDataTypesEqual(200));
-        $this->assertEquals(-200, $this->_testInputOutputDataTypesEqual(-200));
-    }
 
 
 

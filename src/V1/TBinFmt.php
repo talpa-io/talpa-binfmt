@@ -35,17 +35,17 @@ class TBinFmt
     const TYPE_MED_FLOAT = 225;
 
     const TYPE_MAP = [
-        self::TYPE_INT8 =>      ["c", 1,  1],
-        self::TYPE_INT8_NEG =>  ["c", 1, -1],
+        self::TYPE_INT8 =>      ["C", 1,  1],
+        self::TYPE_INT8_NEG =>  ["C", 1, -1],
 
         self::TYPE_INT16 =>     ["S", 2,  1],
         self::TYPE_INT16_NEG => ["S", 2, -1],
 
-        self::TYPE_INT32 =>     ["l", 4,  1],
-        self::TYPE_INT32_NEG => ["l", 4, -1],
+        self::TYPE_INT32 =>     ["L", 4,  1],
+        self::TYPE_INT32_NEG => ["L", 4, -1],
 
-        self::TYPE_INT64 =>     ["q", 8,  1],
-        self::TYPE_INT64_NEG => ["q", 8, -1],
+        self::TYPE_INT64 =>     ["Q", 8,  1],
+        self::TYPE_INT64_NEG => ["Q", 8, -1],
 
         self::TYPE_MIN3_FLOAT => ["s", 2, 1000],
         self::TYPE_MIN2_FLOAT => ["s", 2, 100],

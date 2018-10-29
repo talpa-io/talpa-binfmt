@@ -35,6 +35,8 @@ class TCLDataWriter extends TBinFmt
         "basic_data" => 0
     ];
 
+    private $lastDataType;
+
     private $numRows = 0;
 
     const OUTPUT_BUFFER_LENGTH = 128000; // Optimal (for file usage)
@@ -87,20 +89,24 @@ class TCLDataWriter extends TBinFmt
            // phore_log("$value");
             if (strpos($value, ".") !== false) {
                 $decimalPlaces = (strlen($value) - strpos($value, ".")) - 1;
+                $digitCount = strlen(str_replace("-", "", $value)) - $decimalPlaces - 1;
                 $value = floatval($value);
-                if ($value > -32 && $value < 32 && $decimalPlaces <= 3) {
-                    return self::TYPE_MIN3_FLOAT; // 2 byte
+                // Don't trust the last digit of floats...
+                if ($value > -3200 && $value < 3200 && $decimalPlaces <= 1) {
+                    return self::TYPE_MIN1_FLOAT; // 2 byte
                 }
                 if ($value > -320 && $value < 320 && $decimalPlaces <= 2) {
                     return self::TYPE_MIN2_FLOAT; // 2 byte
                 }
-                if ($value > -3200 && $value < 3200 && $decimalPlaces <= 1) {
-                    return self::TYPE_MIN1_FLOAT; // 2 byte
+                if ($value > -32 && $value < 32 && $decimalPlaces <= 3) {
+                    return self::TYPE_MIN3_FLOAT; // 2 byte
                 }
+
+
                 if ($value >= -211000 && $value <= 211000 && $decimalPlaces <= 4) {
                     return self::TYPE_MED_FLOAT; // 4 byte
                 }
-                if ($value > 211000 || $value < -211000)
+                if ($digitCount + $decimalPlaces < 9)
                     return self::TYPE_FLOAT; // 4 byte
                 return self::TYPE_DOUBLE; // 8 byte
             }
@@ -145,7 +151,8 @@ class TCLDataWriter extends TBinFmt
     {
         if (isset (self::TYPE_MAP[$type])) {
             $curType = self::TYPE_MAP[$type];
-            return $value * $curType[2];
+            $casted = $value * $curType[2];
+            return $casted;
         }
         return $value;
     }
@@ -213,7 +220,7 @@ class TCLDataWriter extends TBinFmt
             $this->timestamp = $timestamp;
             $this->stats["time_shift"]++;
         }
-        $type = $this->detectType($value);
+        $type = $this->lastDataType = $this->detectType($value);
         $value = $this->castValue($type, $value);
 
         if (isset ($this->colLastData[$colId])) {
@@ -247,6 +254,11 @@ class TCLDataWriter extends TBinFmt
         return true;
     }
 
+
+    public function getLastDataType () : int
+    {
+        return $this->lastDataType;
+    }
 
 
     public function getStats() : array

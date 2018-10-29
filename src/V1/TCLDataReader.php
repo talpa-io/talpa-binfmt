@@ -80,7 +80,24 @@ class TCLDataReader extends TBinFmt
         if (isset (self::TYPE_MAP[$type])) {
             $curType = self::TYPE_MAP[$type];
             $data = unpack($curType[0], $this->read($curType[1]));
-            return $data[1] / $curType[2];
+            $value = $data[1] / $curType[2];
+
+            if ($type == self::TYPE_MIN3_FLOAT)
+                $value = round($value, 3);
+            if ($type == self::TYPE_MIN2_FLOAT)
+                $value = round($value, 2);
+            if ($type == self::TYPE_MIN1_FLOAT)
+                $value = round($value, 1);
+
+            if ($type == self::TYPE_MED_FLOAT)
+                $value = round($value, 5);
+
+            if ($type == self::TYPE_FLOAT) {
+                $decimals = strpos(str_replace("-", "", $value), ".");
+                $value = round($value, (8-$decimals));
+            }
+
+            return $value;
         }
         if ($type === self::TYPE_STRING) {
             //echo "string";
