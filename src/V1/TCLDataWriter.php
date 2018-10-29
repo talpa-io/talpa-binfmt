@@ -186,9 +186,12 @@ class TCLDataWriter extends TBinFmt
     }
 
 
-    public function inject(float $timestamp, string $columnName, $value)
+    public function inject(float $timestamp, string $columnName, $value, string $measureUnit=null)
     {
         $this->numRows++;
+
+        if ($measureUnit !== null)
+            $columnName .= ":$measureUnit";
 
         if ( ! isset ($this->colNameIdMap[$columnName])) {
             $newColId = count(array_keys($this->colNameIdMap));
