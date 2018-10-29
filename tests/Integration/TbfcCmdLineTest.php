@@ -41,4 +41,12 @@ class TbfcCmdLineTest extends TestCase
         $this->assertFileEquals($this->MOCK_4COL_BASIC_DATA, "/tmp/out_compare.csv");
     }
 
+
+    public function testStdInStdOutStreaming()
+    {
+        phore_exec("cat $this->MOCK_4COL_BASIC_DATA | bin/tbfc --tbfc --pack --failOnErr --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout > /tmp/out_compare2.csv");
+        $this->assertFileEquals($this->MOCK_4COL_BASIC_DATA, "/tmp/out_compare2.csv");
+    }
+
+
 }

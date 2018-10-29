@@ -47,7 +47,8 @@ $group->command("pack")
         $firstTs = null;
         while ( ! $in->feof()) {
             $data = $in->freadcsv(0, "\t");
-
+            if ($data === null)
+                continue;
             if (count($data) === 0)
                 continue;
 
