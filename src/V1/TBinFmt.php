@@ -67,7 +67,7 @@ class TBinFmt
     const TYPE_NAME_ASSIGN = 251;
     const TYPE_EOF = 249;
 
-    const TS_MULTIPLY = 1000;
+    const TS_MULTIPLY = 10000;
 
     protected function int2binary(int $input)
     {
