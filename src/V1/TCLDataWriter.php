@@ -219,6 +219,8 @@ class TCLDataWriter extends TBinFmt
             $this->writeFrame(self::TYPE_SHIFT_TIMESTAMP, ($timestamp - $this->timestamp));
             $this->timestamp = $timestamp;
             $this->stats["time_shift"]++;
+        } else {
+            //echo "N: " . $timestamp . ";";
         }
         $type = $this->lastDataType = $this->detectType($value);
         $value = $this->castValue($type, $value);

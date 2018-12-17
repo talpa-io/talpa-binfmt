@@ -15,7 +15,8 @@ class TCLDataReader extends TBinFmt
 {
 
     private $fileStream;
-    private $curTs = null;
+    private $curTsInt = null;
+    private $curTsFloat = 0.;
 
     private $lastColData = null;
 
@@ -152,24 +153,26 @@ class TCLDataReader extends TBinFmt
                     $value = true;
                 $this->lastColData[$colId] = $value;
                 if (isset ($includeIds[$colId]))
-                    ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
+                    ($this->onDataCb)($this->curTsFloat, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
                 continue;
             }
 
             if ($type == self::TYPE_SET_TIMESTAMP) {
-                $newTs = $this->readPayload(self::TYPE_INT64) / self::TS_MULTIPLY;
-                $this->curTs = $newTs;
+                $newTs = $this->readPayload(self::TYPE_INT64);
+                $this->curTsInt = $newTs;
+                $this->curTsFloat = $newTs / self::TS_MULTIPLY;
                 continue;
             }
             if ($type == self::TYPE_SHIFT_TIMESTAMP) {
-                $this->curTs += $colId / self::TS_MULTIPLY;
+                $this->curTsInt += $colId;
+                $this->curTsFloat = $this->curTsInt / self::TS_MULTIPLY;
                 continue;
             }
 
             if ($type == self::TYPE_UNMODIFIED) {
                 if (isset ($includeIds[$colId]))
-                    ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $this->lastColData[$colId], $this->colIdToNameMap[$colId][1]);
+                    ($this->onDataCb)($this->curTsFloat, $this->colIdToNameMap[$colId][0], $this->lastColData[$colId], $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
                 continue;
             }
@@ -184,7 +187,7 @@ class TCLDataReader extends TBinFmt
             $value = $this->readPayload($type);
             $this->lastColData[$colId] = $value;
             if (isset ($includeIds[$colId]))
-                ($this->onDataCb)($this->curTs, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
+                ($this->onDataCb)($this->curTsFloat, $this->colIdToNameMap[$colId][0], $value, $this->colIdToNameMap[$colId][1]);
             $this->rowCount++;
 
         }

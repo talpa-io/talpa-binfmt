@@ -21,7 +21,7 @@
     "phore/cli": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.4@dev",
+    "phpunit/phpunit": "*",
     "phore/system": "dev-master"
   },
   "autoload": {
