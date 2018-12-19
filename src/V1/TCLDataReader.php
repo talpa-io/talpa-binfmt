@@ -23,6 +23,7 @@ class TCLDataReader extends TBinFmt
     private $rowCount = 0;
 
     private $buffer = "";
+    private $bLen = 0;
     private $bIndex = 0;
     private $pullMore;
 
@@ -38,15 +39,18 @@ class TCLDataReader extends TBinFmt
 
             $buf = $this->fileStream->fread($bytesToRead);
             while (strlen($buf) < $bytesToRead) {
-                usleep(1000);
+                usleep(500);
                 if ($this->fileStream->feof())
                     throw new \InvalidArgumentException("Broken input pipe.");
                 $buf .= $this->fileStream->fread($bytesToRead - strlen($buf));
+
             }
 
             $this->buffer = gzdecode($buf);
             if ($this->buffer === false)
                 throw new \InvalidArgumentException("Gzip error: Cannot decode data frame: $buf");
+
+            $this->bLen = strlen($this->buffer);
         };
     }
 
@@ -54,7 +58,8 @@ class TCLDataReader extends TBinFmt
 
     private function read(int $length)
     {
-        if (strlen($this->buffer) < $this->bIndex + $length) {
+        // strlen is too slow here - use bLen as buffer len
+        if ($this->bLen < $this->bIndex + $length) {
             $this->buffer = substr($this->buffer, $this->bIndex);
             $this->bIndex = 0;
             ($this->pullMore)();
@@ -70,8 +75,9 @@ class TCLDataReader extends TBinFmt
     {
         $input = $this->read(3);
         if ($input)
-        $type = ord($input[0]);
-        $colId = $this->bin2int(substr($input, 1));
+            $type = ord($input[0]);
+        //Shortcut for bin2int
+        $colId = ord($input[1]) * 255 + ord($input[2]);
         //$data = unpack("Ctype/ScolId", $this->read(3));
         //return $data;
     }
