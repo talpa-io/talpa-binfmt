@@ -74,8 +74,8 @@ class TCLDataReader extends TBinFmt
     private function readDataFrame(&$type, &$colId)
     {
         $input = $this->read(3);
-        if ($input)
-            $type = ord($input[0]);
+
+        $type = ord($input[0]);
         //Shortcut for bin2int
         $colId = ord($input[1]) * 255 + ord($input[2]);
         //$data = unpack("Ctype/ScolId", $this->read(3));
@@ -130,7 +130,7 @@ class TCLDataReader extends TBinFmt
     {
         $this->fileStream = $fileStream;
         $this->rowCount = 0;
-        $data = $this->readDataFrame($type, $colId);
+        $this->readDataFrame($type, $colId);
         if ($type !== self::TYPE_FILE_VERSION || $colId !== 1)
             throw new \InvalidArgumentException("Unknown file format. Requires talpa binfmt v1");
         $this->metadata = json_decode($this->readPayload(self::TYPE_STRING));
@@ -138,15 +138,7 @@ class TCLDataReader extends TBinFmt
         $includeIds = [];
         while (true) {
             $this->readDataFrame($type, $colId);
-            if ($type == self::TYPE_NAME_ASSIGN) {
-                $len = unpack("clen", $this->read(1))["len"];
-                $colName = $this->read($len);
-                $colExp = explode(":", $colName);
-                $this->colIdToNameMap[$colId] = $colExp;
-                if (in_array($colExp[0], $includeCols) || empty($includeCols))
-                    $includeIds[$colId] = true;
-                continue;
-            }
+
             if ($type <= 204) {
                 $value = $type;
                 if ($type === self::TYPE_EMPTY_STRING)
@@ -164,24 +156,37 @@ class TCLDataReader extends TBinFmt
                 continue;
             }
 
-            if ($type == self::TYPE_SET_TIMESTAMP) {
-                $newTs = $this->readPayload(self::TYPE_INT64);
-                $this->curTsInt = $newTs;
-                $this->curTsFloat = $newTs / self::TS_MULTIPLY;
-                continue;
-            }
-            if ($type == self::TYPE_SHIFT_TIMESTAMP) {
-                $this->curTsInt += $colId;
-                $this->curTsFloat = $this->curTsInt / self::TS_MULTIPLY;
-                continue;
-            }
-
             if ($type == self::TYPE_UNMODIFIED) {
                 if (isset ($includeIds[$colId]))
                     ($this->onDataCb)($this->curTsFloat, $this->colIdToNameMap[$colId][0], $this->lastColData[$colId], $this->colIdToNameMap[$colId][1]);
                 $this->rowCount++;
                 continue;
             }
+
+            if ($type == self::TYPE_SHIFT_TIMESTAMP) {
+                $this->curTsInt += $colId;
+                $this->curTsFloat = $this->curTsInt / self::TS_MULTIPLY;
+                continue;
+            }
+
+            if ($type == self::TYPE_SET_TIMESTAMP) {
+                $newTs = $this->readPayload(self::TYPE_INT64);
+                $this->curTsInt = $newTs;
+                $this->curTsFloat = $newTs / self::TS_MULTIPLY;
+                continue;
+            }
+
+            if ($type == self::TYPE_NAME_ASSIGN) {
+                $len = unpack("clen", $this->read(1))["len"];
+                $colName = $this->read($len);
+                $colExp = explode(":", $colName);
+                $this->colIdToNameMap[$colId] = $colExp;
+                if (in_array($colExp[0], $includeCols) || empty($includeCols))
+                    $includeIds[$colId] = true;
+                continue;
+            }
+
+
 
             if ($type == self::TYPE_EOF) {
                 $rowCount = $this->readPayload(self::TYPE_INT64);
