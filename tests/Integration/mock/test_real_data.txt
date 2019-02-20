@@ -231,6 +231,7 @@
 1543881227.889306	engine_torque_mode	uint8	bit	0
 1543881227.989517	engine_torque_mode	uint8	bit	0
 1543881228.089728	engine_torque_mode	uint8	bit	0
+1543881228.089728	engine_torque_base	uint8	bit	0
 1543881228.189926	engine_torque_mode	uint8	bit	0
 1543881228.290112	engine_torque_mode	uint8	bit	0
 1543881228.390323	engine_torque_mode	uint8	bit	0
