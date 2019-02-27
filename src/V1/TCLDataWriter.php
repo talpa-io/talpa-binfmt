@@ -32,7 +32,8 @@ class TCLDataWriter extends TBinFmt
         "no_change" => 0,
         "time_shift" => 0,
         "time_set" => 0,
-        "basic_data" => 0
+        "basic_data" => 0,
+        "col_assign" => 0
     ];
 
     private $lastDataType;
@@ -41,6 +42,9 @@ class TCLDataWriter extends TBinFmt
 
     const OUTPUT_BUFFER_LENGTH = 128000; // Optimal (for file usage)
     const GZ_COMPRESSION_LEVEL = 7; //Optimal
+
+    const DEBUG_SKIP_COMPRESS_OUTPUT = false; // No-Debug: false  - if true will skip compession
+
 
     private $outputBuffer = "";
 
@@ -56,7 +60,12 @@ class TCLDataWriter extends TBinFmt
 
     private function flushOutputBuffer()
     {
-        $compressed = gzencode($this->outputBuffer, self::GZ_COMPRESSION_LEVEL);
+        if (self::DEBUG_SKIP_COMPRESS_OUTPUT) {
+            $compressed = $this->outputBuffer;
+        } else {
+            $compressed = gzencode($this->outputBuffer, self::GZ_COMPRESSION_LEVEL);
+        }
+
         $this->fileStream->fwrite(pack("L", strlen($compressed)) . $compressed);
         $this->outputBuffer = "";
     }
@@ -71,8 +80,10 @@ class TCLDataWriter extends TBinFmt
 
     private function writeFrame(int $frameType, int $colId)
     {
+
         //$this->write(pack("CS", $frameType, $colId));
         $data = chr($frameType) . $this->int2binary($colId);
+
         if (strlen($data) !== 3)
             throw new \InvalidArgumentException("length");
         $this->write($data);
@@ -184,6 +195,7 @@ class TCLDataWriter extends TBinFmt
     private function writeColIdAssign(int $colId, string $columnName)
     {
         $this->writeFrame(self::TYPE_NAME_ASSIGN, $colId);
+        $this->stats["col_assign"]++;
         $columnNamePacked = $columnName; //gzencode($columnName, 5);
         $len = strlen($columnNamePacked);
         if ($len > 255)
