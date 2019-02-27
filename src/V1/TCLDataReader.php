@@ -188,6 +188,8 @@ class TCLDataReader extends TBinFmt
                 $len = unpack("clen", $this->read(1))["len"];
                 $colName = $this->read($len);
                 $colExp = explode(":", $colName);
+                if (count($colExp) == 1)
+                    $colExp[] = "";
                 $this->colIdToNameMap[$colId] = $colExp;
                 if (in_array($colExp[0], $includeCols) || empty($includeCols))
                     $includeIds[$colId] = true;
