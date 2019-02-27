@@ -61,7 +61,7 @@ class TCLDataReader extends TBinFmt
     public function getStats() {
         return [
             "row_count" => $this->rowCount
-        ]
+        ];
     }
 
     private function read(int $length)
