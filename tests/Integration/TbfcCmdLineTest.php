@@ -47,4 +47,12 @@ class TbfcCmdLineTest extends TestCase
     }
 
 
+    public function testAfterCmd()
+    {
+
+        phore_exec("bin/tbfc --tbfc --pack --failOnErr --input=$this->MOCK_4COL_BASIC_DATA --afterCmd='cat %f > /tmp/out_compare3.bin'");
+        $this->assertFileExists("/tmp/out_compare3.bin");
+    }
+
+
 }

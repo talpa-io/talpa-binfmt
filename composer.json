@@ -18,11 +18,12 @@
     "phore/log": "dev-master",
     "phore/filesystem": "dev-master",
     "phore/objectstore": "dev-master",
-    "phore/cli": "dev-master"
+    "phore/cli": "dev-master",
+    "phore/system": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
-    "phore/system": "dev-master"
+
   },
   "autoload": {
     "psr-4": {

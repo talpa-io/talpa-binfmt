@@ -16,6 +16,13 @@ Install the command line tool
 cat test/mock/demo.in.txt | bin/tbfc --tbfc --pack --stdin --stdout | bin/tbfc --tbfc --unpack --stdin --stdout
 ```
 
+## Using tbfc command for batch processing
+
+```
+bin/tbfc --tbfc --pack --input=/path/*.csv --afterCmd='curl '
+```
+
+
 ## Specs
 
 - Maximum resolution: 1kHz (0.0001 seconds)

@@ -10,6 +10,8 @@
 namespace App;
 
 use Phore\Cli\CliController;
+use Phore\FileSystem\FileStream;
+use Phore\FileSystem\PhoreTempFile;
 use Phore\Log\Logger\PhoreEchoLogger;
 use Phore\Log\PhoreLog;
 use Talpa\BinFmt\V1\TCLDataReader;
@@ -23,77 +25,123 @@ else
 
 $group = \Phore\Cli\CliController::GetInstance()->group("tbfc");
 
+
+
+
+function packData(FileStream $in, FileStream $out, bool $failOnErr, bool $indurad5colQuickfix, callable $onFileReady=null) {
+    $writer = new TCLDataWriter($out);
+    PhoreLog::Init(new PhoreEchoLogger());
+    $minTime = strtotime("2018-01-01 00:00:00");
+    $firstTs = null;
+    while ( ! $in->feof()) {
+        $data = $in->freadcsv(0, "\t");
+        if ($data === null)
+            continue;
+        if (count($data) === 0)
+            continue;
+
+        if ($indurad5colQuickfix) {
+            if ( ! is_array($data) || count($data) !== 5 ) {
+                if ($failOnErr)
+                    throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
+                phore_log()->warn("Ignoring line " . print_r ($data, true));
+                continue;
+            }
+        } else {
+            if ( ! is_array($data) || count($data) !== 4 ) {
+                if ($failOnErr)
+                    throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
+                phore_log()->warn("Ignoring line " . print_r ($data, true));
+                continue;
+            }
+        }
+
+
+
+        $timestamp = $data[0];
+        if ($timestamp < $minTime) {
+            if ($failOnErr)
+                throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
+            phore_log()->warn("Timestamp $timestamp before 2018");
+            continue;
+        }
+        $colName = $data[1];
+        $mu = $data[2];
+        $value = $data[3];
+        if ($indurad5colQuickfix) {
+            $mu = $data[3];
+            $value = $data[4];
+        }
+
+        if ($firstTs === null)
+            $firstTs = $timestamp;
+        //phore_log("Ts: {$timestamp} ColName: $colName Measure: {$mu} Value: {$value}");
+        $writer->inject($timestamp, $colName, $value, $mu);
+    }
+    $writer->close();
+    $in->fclose();
+
+    phore_log()->info("OK Imported " . date("Y-m-d H:i:s", $firstTs) . " - " . date("Y-m-d H:i:s", @$timestamp) . print_r($writer->getStats(), true));
+    if ($onFileReady)
+        $onFileReady();
+}
+
+
+
+
 $group->command("pack")
     ->withString("input", "the input file")
     ->withBool("stdin", "read from strdin")
     ->withBool("stdout", "Write to stdout")
     ->withBool("indurad5colQuickfix", "Quick fix to fix indurad 5 column format")
     ->withBool("failOnErr", "Fail hard on input error (testing)")
+    ->withString("afterCmd", "Run this script after each file compleded (Replace %f with filename)")
     ->withString("out", "output file")
-    ->run(function($input, bool $stdin, bool $stdout, $out, bool $indurad5colQuickfix, bool $failOnErr) {
+    ->run(function($input, bool $stdin, bool $stdout, $out, bool $indurad5colQuickfix, bool $failOnErr, string $afterCmd=null) {
+        $inFiles = null;
         if ($stdin) {
             $in = phore_file("php://stdin")->asFile()->fopen("r");
         } else {
+            $inFiles = glob($input);
             $in = phore_file($input)->assertFile()->fopen("r");
         }
         if ($stdout) {
             $out = phore_file("php://stdout")->fopen("w");
         } else {
-            $out = phore_file($out)->fopen("w");
+            if ($out !== null) {
+                $out = phore_file($out)->fopen("w");
+            }
         }
-        $writer = new TCLDataWriter($out);
-        PhoreLog::Init(new PhoreEchoLogger());
-        $minTime = strtotime("2018-01-01 00:00:00");
-        $firstTs = null;
-        while ( ! $in->feof()) {
-            $data = $in->freadcsv(0, "\t");
-            if ($data === null)
-                continue;
-            if (count($data) === 0)
-                continue;
 
-            if ($indurad5colQuickfix) {
-                if ( ! is_array($data) || count($data) !== 5 ) {
-                    if ($failOnErr)
-                        throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-                    phore_log()->warn("Ignoring line " . print_r ($data, true));
-                    continue;
+        if ($inFiles !== null) {
+            foreach ($inFiles as $inFile) {
+                if ($out === null) {
+                    $outTmp = new PhoreTempFile("upload_tbfc");
+                    $outTmpFile = $outTmp->fopen("w");
+                } else {
+                    $outTmpFile = $out;
                 }
-            } else {
-                if ( ! is_array($data) || count($data) !== 4 ) {
-                    if ($failOnErr)
-                        throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-                    phore_log()->warn("Ignoring line " . print_r ($data, true));
-                    continue;
-                }
+                phore_out("Start converting file $inFile... (tmp file)");
+                $in = phore_file($inFile)->fopen("r");
+                packData($in, $outTmpFile, $failOnErr, $indurad5colQuickfix, function () use ($afterCmd, $outTmp, $outTmpFile) {
+                    phore_log("Done");
+                    $afterCmd = str_replace("%f", (string) $outTmp, $afterCmd);
+                    if ($afterCmd !== "") {
+                        phore_out("Running afterCmd: '$afterCmd'...");
+                        phore_exec($afterCmd);
+                        phore_out("Done (afterCmd)");
+                    }
+
+                });
             }
-
-
-
-            $timestamp = $data[0];
-            if ($timestamp < $minTime) {
-                if ($failOnErr)
-                    throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-                phore_log()->warn("Timestamp $timestamp before 2018");
-                continue;
+        } else {
+            if ($out === null) {
+                throw new \InvalidArgumentException("No output defined.");
             }
-            $colName = $data[1];
-            $mu = $data[2];
-            $value = $data[3];
-            if ($indurad5colQuickfix) {
-                $mu = $data[3];
-                $value = $data[4];
-            }
-
-            if ($firstTs === null)
-                $firstTs = $timestamp;
-            //phore_log("Ts: {$timestamp} ColName: $colName Measure: {$mu} Value: {$value}");
-            $writer->inject($timestamp, $colName, $value, $mu);
+            packData($in, $out, $failOnErr, $indurad5colQuickfix);
         }
-        $writer->close();
-        $in->fclose();
 
-        phore_log()->info("OK Imported " . date("Y-m-d H:i:s", $firstTs) . " - " . date("Y-m-d H:i:s", @$timestamp) . print_r($writer->getStats(), true));
+
 
     });
 
