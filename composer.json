@@ -22,8 +22,7 @@
     "phore/system": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
-
+    "phpunit/phpunit": "*"
   },
   "autoload": {
     "psr-4": {

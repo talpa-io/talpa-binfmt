@@ -3,7 +3,9 @@
 ## Install using composer 
 
 ```
-composer require talpa/binfmt
+sudo apt install php7.2- 
+composer global config minimum-stability dev 
+composer global require talpa/binfmt
 ```
 
 Install the command line tool
