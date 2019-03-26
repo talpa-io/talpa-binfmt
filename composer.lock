@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "05cae5a4d1673756cbd2935bdfabaa51",
+    "content-hash": "2f81c61e619a3097f833b2e426acc345",
     "packages": [
         {
             "name": "phore/cli",
@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phore/phore-core.git",
-                "reference": "7c4ae1c29b3f557ffc1e098f580a02c32d027a43"
+                "reference": "bfef8dca48d827e4e88cfb909df5ecdc3528b85f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-core/zipball/7c4ae1c29b3f557ffc1e098f580a02c32d027a43",
-                "reference": "7c4ae1c29b3f557ffc1e098f580a02c32d027a43",
+                "url": "https://api.github.com/repos/phore/phore-core/zipball/bfef8dca48d827e4e88cfb909df5ecdc3528b85f",
+                "reference": "bfef8dca48d827e4e88cfb909df5ecdc3528b85f",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 }
             ],
             "description": "Phore core library",
-            "time": "2019-03-06T21:34:40+00:00"
+            "time": "2019-03-22T12:27:22+00:00"
         },
         {
             "name": "phore/di-base",
@@ -282,6 +282,44 @@
             ],
             "description": "Object store for local files, google, aws",
             "time": "2018-12-19T15:28:18+00:00"
+        },
+        {
+            "name": "phore/system",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phore/phore-system.git",
+                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phore/phore-system/zipball/0bbebdb512542c4271851834716ddc8a4eea624b",
+                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phore\\System\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Leuffen",
+                    "email": "leuffen@continue.de"
+                }
+            ],
+            "time": "2018-08-09T16:29:31+00:00"
         },
         {
             "name": "psr/container",
@@ -589,44 +627,6 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2018-07-08T19:19:57+00:00"
-        },
-        {
-            "name": "phore/system",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phore/phore-system.git",
-                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phore/phore-system/zipball/0bbebdb512542c4271851834716ddc8a4eea624b",
-                "reference": "0bbebdb512542c4271851834716ddc8a4eea624b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">7.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phore\\System\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthias Leuffen",
-                    "email": "leuffen@continue.de"
-                }
-            ],
-            "time": "2018-08-09T16:29:31+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1101,12 +1101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "856f2136bcd3a7c49013e152f5c04b8f6d9c58fe"
+                "reference": "5eeaed77f6d6007b39d45a76a590df357377c3c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/856f2136bcd3a7c49013e152f5c04b8f6d9c58fe",
-                "reference": "856f2136bcd3a7c49013e152f5c04b8f6d9c58fe",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5eeaed77f6d6007b39d45a76a590df357377c3c1",
+                "reference": "5eeaed77f6d6007b39d45a76a590df357377c3c1",
                 "shasum": ""
             },
             "require": {
@@ -1175,7 +1175,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-03-18T12:49:55+00:00"
+            "time": "2019-03-26T10:42:57+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

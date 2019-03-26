@@ -3,7 +3,7 @@
 ## Install using composer 
 
 ```
-sudo apt install php7.2- 
+sudo apt install php7.2-yaml
 composer global config minimum-stability dev 
 composer global require talpa/binfmt
 ```
