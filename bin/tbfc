@@ -87,8 +87,6 @@ function packData(FileStream $in, FileStream $out, bool $failOnErr, bool $indura
 }
 
 
-
-
 $group->command("pack")
     ->withString("input", "the input file")
     ->withBool("stdin", "read from strdin")
