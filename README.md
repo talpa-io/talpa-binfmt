@@ -5,11 +5,24 @@
 ```
 sudo apt install php7.2-yaml
 composer global config minimum-stability dev 
-composer global require talpa/binfmt
+composer global require talpa/binfmt:dev-master
 ```
 
 Install the command line tool
 
+
+## Accepted Input Format (TabSV)
+
+Line Format:
+
+<timestamp_epoch>`\t`<signal_name>`\t`<measure_unit>`\t`<signal_value>`\n`
+
+```
+1550000000	signal1	rpm	5
+1550000000.1234	signal1	rpm	10
+```
+
+No Header - UTF-8 Input only.
 
 
 ## Usting the tbfc command line tool
