@@ -101,7 +101,7 @@ $group->command("pack")
             $in = phore_file("php://stdin")->asFile()->fopen("r");
         } else {
             $inFiles = glob($input);
-            $in = phore_file($input)->assertFile()->fopen("r");
+            //$in = phore_file($input)->assertFile()->fopen("r");
         }
         if ($stdout) {
             $out = phore_file("php://stdout")->fopen("w");
