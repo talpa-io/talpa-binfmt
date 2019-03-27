@@ -238,7 +238,7 @@ class TCLDataWriter extends TBinFmt
         $value = $this->castValue($type, $value);
 
         if (isset ($this->colLastData[$colId])) {
-            if ($this->colLastData[$colId] == $value) {
+            if ($this->colLastData[$colId] === $value) {
                 $this->writeFrame(self::TYPE_UNMODIFIED, $colId);
                 $this->stats["no_change"]++;
                 return true;
