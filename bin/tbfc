@@ -93,7 +93,7 @@ $group->command("pack")
     ->withBool("stdout", "Write to stdout")
     ->withBool("indurad5colQuickfix", "Quick fix to fix indurad 5 column format")
     ->withBool("failOnErr", "Fail hard on input error (testing)")
-    ->withString("afterCmd", "Run this script after each file compleded (Replace %f with filename)")
+    ->withString("afterCmd", "Run this script after each file compleded (Replace %f with converted filename, %if name of input file)")
     ->withString("out", "output file")
     ->run(function($input, bool $stdin, bool $stdout, $out, bool $indurad5colQuickfix, bool $failOnErr, string $afterCmd=null) {
         $inFiles = null;
@@ -121,9 +121,10 @@ $group->command("pack")
                 }
                 phore_out("Start converting file $inFile... (tmp file)");
                 $in = phore_file($inFile)->fopen("r");
-                packData($in, $outTmpFile, $failOnErr, $indurad5colQuickfix, function () use ($afterCmd, $outTmp, $outTmpFile) {
+                packData($in, $outTmpFile, $failOnErr, $indurad5colQuickfix, function () use ($afterCmd, $outTmp, $outTmpFile, $inFile) {
                     phore_log("Done");
                     $afterCmd = str_replace("%f", (string) $outTmp, $afterCmd);
+                    $afterCmd = str_replace("%if", (string) $inFile, $afterCmd);
                     if ($afterCmd !== "") {
                         phore_out("Running afterCmd: '$afterCmd'...");
                         phore_exec($afterCmd);
