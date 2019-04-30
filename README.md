@@ -48,6 +48,33 @@ bin/tbfc --tbfc --pack --input=/path/*.csv --afterCmd='curl '
 ## Formats
 
 
+## GPS Geotagging
+
+see [info](https://stackoverflow.com/questions/15965166/what-is-the-maximum-length-of-latitude-and-longitude)
+
+Lontitude: -180 - +180
+Latitude: -90 - +90
+Height: -8000 - +20000m
+
+10cm Prcision: 0.000001 (6 decimal places)
+1mm Precision: 8 decimal places
+1cm Precision: 7 decimal places !!
+
+=> signedInt_32 (wertebereich: −2.147.483.648 - 2.147.483.647)
+
+Position: 
+
+Datatype:
+
+SET_LNG_LAT_POS: sig_int_32, sig_int_32
+SET_LNG_LAT_HEIGHT_POS: sig_int_32, sig_int_32, sig_int_32
+
+SET_LNG_LAT_DIFF_8: sig_int_8, sig_int_8 (bis zu 1,2 m / sek = 4.32 km/h)
+SET_LNG_LAT_DIFF_16: sig_int_16, sig_int_16 (bis zu 32m / sek = 115 km/h )
+
+
+
+
 
 ## Tests 
 
