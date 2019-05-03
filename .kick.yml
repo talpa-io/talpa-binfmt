@@ -8,7 +8,7 @@ command:
     - "composer update"
 
   test:
-    - "phpunit tests/"
+    - "vendor/bin/phpunit tests/"
 
   test_bin:
   - "cat tests/Integration/mock/test_real_data.txt | bin/tbfc --tbfc --pack --indurad5colQuickfix --stdin --stdout > bin_out.bin"
