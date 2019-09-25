@@ -9,11 +9,8 @@
 namespace Talpa\BinFmt\V1;
 
 
-use Phore\CloudStore\ObjectStore;
 use Phore\FileSystem\GzFileStream;
-use Phore\FileSystem\PhoreFile;
 use Phore\FileSystem\PhoreTempFile;
-use Talpa\BinFmt\BinStreamWriter;
 
 class TMachineInputMux
 {

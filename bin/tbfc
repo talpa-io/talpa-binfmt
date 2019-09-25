@@ -12,8 +12,8 @@ namespace App;
 use Phore\Cli\CliController;
 use Phore\FileSystem\FileStream;
 use Phore\FileSystem\PhoreTempFile;
-use Phore\Log\Logger\PhoreEchoLogger;
-use Phore\Log\PhoreLog;
+use Phore\Log\Logger\PhoreEchoLoggerDriver;
+use Phore\Log\PhoreLogger;
 use Talpa\BinFmt\V1\TCLDataReader;
 use Talpa\BinFmt\V1\TCLDataWriter;
 
@@ -30,7 +30,7 @@ $group = \Phore\Cli\CliController::GetInstance()->group("tbfc");
 
 function packData(FileStream $in, FileStream $out, bool $failOnErr, bool $indurad5colQuickfix, callable $onFileReady=null) {
     $writer = new TCLDataWriter($out);
-    PhoreLog::Init(new PhoreEchoLogger());
+    PhoreLogger::Init(new PhoreEchoLoggerDriver());
     $minTime = strtotime("2018-01-01 00:00:00");
     $firstTs = null;
     while ( ! $in->feof()) {
@@ -44,14 +44,14 @@ function packData(FileStream $in, FileStream $out, bool $failOnErr, bool $indura
             if ( ! is_array($data) || count($data) !== 5 ) {
                 if ($failOnErr)
                     throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-                phore_log()->warn("Ignoring line " . print_r ($data, true));
+                phore_log()->warning("Ignoring line " . print_r ($data, true));
                 continue;
             }
         } else {
             if ( ! is_array($data) || count($data) !== 4 ) {
                 if ($failOnErr)
                     throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-                phore_log()->warn("Ignoring line " . print_r ($data, true));
+                phore_log()->warning("Ignoring line " . print_r ($data, true));
                 continue;
             }
         }
@@ -62,7 +62,7 @@ function packData(FileStream $in, FileStream $out, bool $failOnErr, bool $indura
         if ($timestamp < $minTime) {
             if ($failOnErr)
                 throw new \InvalidArgumentException("Line malformed: " . print_r($data, true));
-            phore_log()->warn("Timestamp $timestamp before 2018");
+            phore_log()->warning("Timestamp $timestamp before 2018");
             continue;
         }
         $colName = $data[1];

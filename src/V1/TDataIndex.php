@@ -9,8 +9,6 @@
 namespace Talpa\BinFmt\V1;
 
 
-use Talpa\BinFmt\TalpaMaschineStore;
-
 class TDataIndex
 {
 
